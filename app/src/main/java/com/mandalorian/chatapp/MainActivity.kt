@@ -1,4 +1,4 @@
-package com.justin.mandalorian
+package com.mandalorian.chatapp
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
