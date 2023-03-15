@@ -1,4 +1,4 @@
-package com.justin.mandalorian
+package com.mandalorian.chatapp
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
