@@ -1,4 +1,4 @@
-package com.justin.mandalorian
+package com.mandalorian.chatapp
 
 import org.junit.Test
 
