@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import com.mandalorian.chatapp.viewModel.MainViewModel
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -16,6 +17,5 @@ class MainActivity : AppCompatActivity() {
         val myRef = database.getReference("message")
 
         myRef.setValue("Hello, World!")
-
     }
 }
