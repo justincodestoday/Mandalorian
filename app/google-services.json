@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "234783045464",
+    "project_id": "chatapp-acb9f",
+    "storage_bucket": "chatapp-acb9f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:234783045464:android:744923acea7bbcccefd72d",
+        "android_client_info": {
+          "package_name": "com.mandalorian.chatapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "234783045464-vn0a8rr6rredh49j2k66f4b7cfmpthut.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAIXYuj_2xRvlRzW0qEMN-EKeU2U11Gqfs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "234783045464-vn0a8rr6rredh49j2k66f4b7cfmpthut.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
