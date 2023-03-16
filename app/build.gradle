@@ -1,10 +1,8 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
-
     id 'kotlin-kapt'
-    id 'com.google.gms.google-services'
-    id("com.google.dagger.hilt.android")
+    id 'com.google.dagger.hilt.android'
     id 'com.google.gms.google-services'
 }
 
@@ -67,5 +65,5 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics-ktx'
     implementation 'com.google.firebase:firebase-database-ktx'
     implementation 'com.google.firebase:firebase-auth-ktx'
-
+    implementation 'com.google.firebase:firebase-firestore-ktx'
 }

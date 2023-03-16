@@ -1,7 +1,8 @@
 package com.mandalorian.chatapp.data.model
 
 data class User(
-    val username: String,
-    val email: String,
-    val password: String,
+    val id: String? = null,
+    val name: String? = null,
+    val email: String? = null,
+    val password: String? = null,
 )
