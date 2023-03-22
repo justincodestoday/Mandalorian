@@ -11,13 +11,10 @@ import com.google.firebase.ktx.Firebase
 import com.mandalorian.chatapp.fragments.SigninFragment
 import com.mandalorian.chatapp.fragments.SignupFragment
 import com.mandalorian.chatapp.fragments.replaceFragment
-import com.mandalorian.chatapp.viewModel.MainViewModel
-
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
 
     }
 }

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main_nav_graph"
+    app:startDestination="@id/signupFragment">
+
+    <fragment
+        android:id="@+id/signupFragment"
+        android:name="com.mandalorian.chatapp.fragments.SignupFragment"
+        android:label="SignupFragment" />
+    <fragment
+        android:id="@+id/signinFragment"
+        android:name="com.mandalorian.chatapp.fragments.SigninFragment"
+        android:label="SigninFragment" />
+    <fragment
+        android:id="@+id/messageFragment"
+        android:name="com.mandalorian.chatapp.fragments.MessageFragment"
+        android:label="MessageFragment" />
+</navigation>
