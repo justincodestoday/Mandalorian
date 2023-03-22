@@ -1,4 +1,4 @@
-package com.justin.mandalorian
+package com.example.chatbox
 
 import org.junit.Test
 
