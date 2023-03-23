@@ -1,20 +1,17 @@
 package com.mandalorian.chatapp.data.service
 
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.CollectionReference
 import com.mandalorian.chatapp.data.model.User
 import kotlinx.coroutines.tasks.await
 
 class AuthService(private val auth: FirebaseAuth, private val ref: CollectionReference) {
-    suspend fun register(user: User): FirebaseUser? {
-        val res = auth.createUserWithEmailAndPassword(user.email!!, user.password!!).await()
-        val doc = ref.document()
-        val id = doc.id
+
+    suspend fun register(user: User) {
+        val res = auth.createUserWithEmailAndPassword(user.email, user.password).await()
         if (res.user != null) {
-            ref.document(id).set(user.copy(id = id)).await()
+            ref.document(user.email).set(user)
         }
-        return res.user
     }
 
     suspend fun login(email: String, password: String): Boolean {
@@ -22,15 +19,12 @@ class AuthService(private val auth: FirebaseAuth, private val ref: CollectionRef
         return res.user?.uid != null
     }
 
-    fun isAuthenticate(): Boolean {
-        val user = auth.currentUser
-        if (user == null) {
-            return false
-        }
+    fun isLoggedIn(): Boolean {
+        auth.currentUser ?: return false
         return true
     }
 
-    fun deAuthenticate() {
+    fun signOut() {
         auth.signOut()
     }
 

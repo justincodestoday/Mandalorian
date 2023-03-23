@@ -1,94 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
 
-    <data>
-
-        <variable
-            name="viewModel"
-            type="com.mandalorian.chatapp.viewModel.SignInViewModel" />
-    </data>
-
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/signin_screen"
-        tools:context=".SignInActivity">
+        tools:context=".fragments.LoginFragment">
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/ti_email"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginTop="350dp"
+            android:id="@+id/emailLayout"
             app:boxStrokeColor="@color/yellow"
             app:hintTextColor="@color/yellow"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="350dp">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/et_email"
+                android:id="@+id/emailEt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Type your Email"
-                android:inputType="textEmailAddress"
-                android:text="@={viewModel.email}" />
+                android:inputType="textEmailAddress" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/ti_password"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginTop="24dp"
+            android:id="@+id/passwordLayout"
             app:boxStrokeColor="@color/yellow"
             app:hintTextColor="@color/yellow"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/ti_email"
-            app:passwordToggleEnabled="true">
+            app:layout_constraintTop_toBottomOf="@id/emailLayout"
+            app:passwordToggleEnabled="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="24dp">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/et_password"
+                android:id="@+id/passET"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Type Your Password"
-                android:inputType="textPassword"
-                android:text="@={viewModel.password}" />
+                android:inputType="textPassword" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_sign_in"
+            android:id="@+id/button"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/passwordLayout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:background="@color/yellow"
             android:text="Sign In"
             android:textColor="@color/black"
-            android:textStyle="bold"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/textView2"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ti_password" />
-
-        <TextView
-            android:id="@+id/textView"
+            app:layout_constraintTop_toBottomOf="@+id/button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Not Registered Yet , Sign Up !"
-            android:textColor="@color/black"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/button" />
-
+            android:textColor="@color/black" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 </layout>

@@ -1,4 +1,4 @@
-package com.mandalorian.chatapp.ui
+package com.mandalorian.chatapp.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
