@@ -1,21 +1,30 @@
 package com.mandalorian.chatapp.viewModel
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.mandalorian.chatapp.data.service.AuthService
+import com.mandalorian.chatapp.utils.Utils
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class SignInViewModel: ViewModel() {
-//    suspend fun signIn() {
-////        if (isFormValid()) {
-//            try {
-//                val res = safeApiCall { repo.login(email.value!!, password.value!!) }
-//                if (res == true) {
-//                    login.emit(Unit)
-//                    success.emit(Enums.FormSuccess.LOGIN_SUCCESSFUL.name)
-//                } else {
-//                    error.emit(Enums.FormError.WRONG_CREDENTIALS.name)
-//                }
-//            } catch (e: Exception) {
-//                error.emit(e.message.toString())
-//            }
-////        }
-//    }
+@HiltViewModel
+class SignInViewModel @Inject constructor(private val authRepo: AuthService) : BaseViewModel() {
+    val loginFinish: MutableSharedFlow<Unit> = MutableSharedFlow()
+
+    fun login(email: String, password: String) {
+        if (Utils.validate(email, password)) {
+            viewModelScope.launch {
+                safeApiCall {
+                    authRepo.login(email, password)
+                    loginFinish.emit(Unit)
+                }
+            }
+        } else {
+            viewModelScope.launch {
+                error.emit("Failed to Login, Please try again")
+            }
+        }
+    }
 }

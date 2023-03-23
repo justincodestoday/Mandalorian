@@ -21,6 +21,7 @@ class MessageFragment : BaseFragment<FragmentMessageBinding>() {
 
     override fun onBindView(view: View, savedInstanceState: Bundle?) {
         super.onBindView(view, savedInstanceState)
+        setupAdapter()
 
         binding?.run {
             btnSend.setOnClickListener {
@@ -43,7 +44,7 @@ class MessageFragment : BaseFragment<FragmentMessageBinding>() {
 
     fun setupAdapter() {
         val layoutManager = LinearLayoutManager(requireContext())
-        adapter = MessageAdapter(mutableListOf())
+        adapter = MessageAdapter(mutableListOf(), requireContext())
 
         binding?.rvMessages?.adapter = adapter
         binding?.rvMessages?.layoutManager = layoutManager

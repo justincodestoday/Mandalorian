@@ -16,7 +16,7 @@ class RealTimeRepository {
     val ref = Firebase.database.getReference("message")
 
     suspend fun addMessage(msg: Message) {
-        ref.setValue(msg).await()
+        ref.push().setValue(msg).await()
     }
 
     fun getAllMessages() = callbackFlow<List<Message>> {
@@ -29,6 +29,7 @@ class RealTimeRepository {
                         messages.add(message)
                     }
                 }
+                trySend(messages)
             }
 
             override fun onCancelled(error: DatabaseError) {

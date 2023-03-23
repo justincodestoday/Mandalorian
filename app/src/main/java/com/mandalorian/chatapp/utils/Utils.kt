@@ -3,7 +3,7 @@ package com.mandalorian.chatapp.utils
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 
-object UserDiffUtil {
+object Utils {
     fun <T> RecyclerView.Adapter<*>.update(
         oldList: List<T>,
         newList: List<T>,
@@ -25,18 +25,17 @@ object UserDiffUtil {
             override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
                 return oldList[oldItemPosition] == newList[newItemPosition]
             }
-
         })
 
         diff.dispatchUpdatesTo(this)
     }
+
     fun validate(vararg fields: String): Boolean {
         fields.forEach { field ->
-            if (field == "") {
+            if (field.isEmpty()) {
                 return false
             }
         }
         return true
     }
-
 }
