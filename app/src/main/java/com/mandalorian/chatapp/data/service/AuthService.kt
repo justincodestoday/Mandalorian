@@ -6,28 +6,25 @@ import com.mandalorian.chatapp.data.model.User
 import kotlinx.coroutines.tasks.await
 
 class AuthService(private val auth: FirebaseAuth, private val ref: CollectionReference) {
-    suspend fun createUser(user: User) {
-        val res = auth.createUserWithEmailAndPassword(user.email, user.password).await()
 
+    suspend fun register(user: User) {
+        val res = auth.createUserWithEmailAndPassword(user.email, user.password).await()
         if (res.user != null) {
-            ref.document(user.email).set(user).await()
+            ref.document(user.email).set(user)
         }
     }
 
-    suspend fun login(email: String, password: String): Boolean? {
+    suspend fun login(email: String, password: String): Boolean {
         val res = auth.signInWithEmailAndPassword(email, password).await()
         return res.user?.uid != null
     }
 
-    fun isAuthenticate(): Boolean {
-        val user = auth.currentUser
-        if (user == null) {
-            return false
-        }
+    fun isLoggedIn(): Boolean {
+        auth.currentUser ?: return false
         return true
     }
 
-    fun deAuthenticate() {
+    fun signOut() {
         auth.signOut()
     }
 
