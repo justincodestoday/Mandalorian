@@ -15,4 +15,9 @@ class UserRepository(private val ref: CollectionReference) {
         }
         return users
     }
+
+    suspend fun getUser(uid: String): User? {
+        val res = ref.document(uid).get().await()
+        return res.toObject(User::class.java)
+    }
 }

@@ -17,23 +17,26 @@ import kotlinx.coroutines.launch
 class MessageFragment : BaseFragment<FragmentMessageBinding>() {
     private lateinit var adapter: MessageAdapter
     override val viewModel: MessageViewModel by viewModels()
-    private val args: MessageFragmentArgs by navArgs()
-
     override fun getLayoutResource() = R.layout.fragment_message
+    private val args: MessageFragmentArgs by navArgs()
 
     override fun onBindView(view: View, savedInstanceState: Bundle?) {
         super.onBindView(view, savedInstanceState)
         setupAdapter()
 
-        viewModel.getCurrentUser()
-
+        viewModel.getUser(args.id)
         binding?.run {
+            viewModel.user.observe(viewLifecycleOwner) {
+                tvUsername.text = it.username
+            }
             btnSend.setOnClickListener {
                 val msg = etMessage.text.toString()
                 etMessage.setText("")
                 viewModel.sendMessage(args.id, msg)
             }
         }
+
+//        throw RuntimeException("Hello, this is an exception")
     }
 
     override fun onBindData(view: View) {

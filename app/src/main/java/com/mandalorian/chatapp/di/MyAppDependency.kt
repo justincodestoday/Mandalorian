@@ -55,6 +55,4 @@ object MyAppDependency {
     fun provideUserRepository(db: FirebaseFirestore): UserRepository {
         return UserRepository(db.collection("users"))
     }
-
-
 }

@@ -1,4 +1,4 @@
-package com.mandalorian.chatapp.fragments
+package com.mandalorian.chatapp.ui
 
 import android.os.Bundle
 import android.view.View
@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.mandalorian.chatapp.R
 import com.mandalorian.chatapp.data.model.User
 import com.mandalorian.chatapp.databinding.FragmentHomeBinding
+import com.mandalorian.chatapp.fragments.BaseFragment
 import com.mandalorian.chatapp.ui.adapters.ChatAdapter
 import com.mandalorian.chatapp.viewModel.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -22,12 +23,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         super.onBindView(view, savedInstanceState)
         setupAdapter()
 
-        binding?.run {
+//        binding?.run {
 //            btnAdd.setOnClickListener {
 //                val action = HomeFragmentDirections.actionHomeFragmentToMessageFragment()
 //                NavHostFragment.findNavController(this@HomeFragment).navigate(action)
 //            }
-        }
+//        }
     }
 
     override fun onBindData(view: View) {
@@ -42,7 +43,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         adapter = ChatAdapter(mutableListOf())
         adapter.listener = object : ChatAdapter.Listener {
             override fun onClick(item: User) {
-                val action = item.id.let { HomeFragmentDirections.actionHomeFragmentToMessageFragment(item.id) }
+                val action =
+                    item.id.let { HomeFragmentDirections.actionHomeFragmentToMessageFragment(item.id) }
                 NavHostFragment.findNavController(this@HomeFragment).navigate(action)
             }
         }
