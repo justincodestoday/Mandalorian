@@ -8,7 +8,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.mandalorian.chatapp.data.service.AuthService
-import com.mandalorian.chatapp.repository.RealtimeRepository
+import com.mandalorian.chatapp.repository.RealTimeRepository
 import com.mandalorian.chatapp.repository.UserRepository
 import dagger.Module
 import dagger.Provides
@@ -46,8 +46,8 @@ object MyAppDependency {
 
     @Provides
     @Singleton
-    fun getRealTimeRepository(): RealtimeRepository {
-        return RealtimeRepository()
+    fun getRealTimeRepository(): RealTimeRepository {
+        return RealTimeRepository()
     }
 
     @Provides
