@@ -31,5 +31,10 @@
     <fragment
         android:id="@+id/messageFragment"
         android:name="com.mandalorian.chatapp.fragments.MessageFragment"
-        android:label="MessageFragment" />
+        android:label="MessageFragment">
+        <argument
+            android:name="id"
+            app:argType="string" />
+    </fragment>
+
 </navigation>

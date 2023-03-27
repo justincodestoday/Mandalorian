@@ -45,8 +45,6 @@ class MainActivity : AppCompatActivity() {
         if (!authRepo.isLoggedIn()) {
             findNavController(R.id.navHostFragment).navigate(R.id.loginFragment)
         }
-
-
     }
 
     override fun onSupportNavigateUp(): Boolean {

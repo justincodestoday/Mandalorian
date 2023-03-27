@@ -1,15 +1,12 @@
 package com.mandalorian.chatapp.fragments
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mandalorian.chatapp.R
-import com.mandalorian.chatapp.data.model.Chat
+import com.mandalorian.chatapp.data.model.User
 import com.mandalorian.chatapp.databinding.FragmentHomeBinding
 import com.mandalorian.chatapp.ui.adapters.ChatAdapter
 import com.mandalorian.chatapp.viewModel.HomeViewModel
@@ -26,16 +23,16 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         setupAdapter()
 
         binding?.run {
-            btnAdd.setOnClickListener {
-                val action = HomeFragmentDirections.actionHomeFragmentToMessageFragment()
-                NavHostFragment.findNavController(this@HomeFragment).navigate(action)
-            }
+//            btnAdd.setOnClickListener {
+//                val action = HomeFragmentDirections.actionHomeFragmentToMessageFragment()
+//                NavHostFragment.findNavController(this@HomeFragment).navigate(action)
+//            }
         }
     }
 
     override fun onBindData(view: View) {
         super.onBindData(view)
-        viewModel.chats.observe(viewLifecycleOwner) {
+        viewModel.users.observe(viewLifecycleOwner) {
             adapter.setChats(it.toMutableList())
         }
     }
@@ -44,8 +41,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         val layoutManager = LinearLayoutManager(requireContext())
         adapter = ChatAdapter(mutableListOf())
         adapter.listener = object : ChatAdapter.Listener {
-            override fun onClick(item: Chat) {
-                val action = item.id.let { HomeFragmentDirections.actionHomeFragmentToMessageFragment() }
+            override fun onClick(item: User) {
+                val action = item.id.let { HomeFragmentDirections.actionHomeFragmentToMessageFragment(item.id) }
                 NavHostFragment.findNavController(this@HomeFragment).navigate(action)
             }
         }

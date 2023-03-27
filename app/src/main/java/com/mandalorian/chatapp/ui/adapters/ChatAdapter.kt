@@ -1,13 +1,16 @@
 package com.mandalorian.chatapp.ui.adapters
 
+import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.mandalorian.chatapp.data.model.Chat
+import com.mandalorian.chatapp.data.model.User
+import com.mandalorian.chatapp.data.service.AuthService
 import com.mandalorian.chatapp.databinding.ItemLayoutChatBinding
 import com.mandalorian.chatapp.utils.Utils.update
 
-class ChatAdapter(private var items: MutableList<Chat>) :
+class ChatAdapter(private var items: MutableList<User>) :
 RecyclerView.Adapter<ChatAdapter.ItemChatHolder>() {
 
     var listener: Listener? = null
@@ -25,13 +28,20 @@ RecyclerView.Adapter<ChatAdapter.ItemChatHolder>() {
     override fun onBindViewHolder(holder: ItemChatHolder, position: Int) {
         val item = items[position]
         holder.binding.run {
-            tvUsername.text = item.user1
-            tvMessage.text = item.messages[0].message
+            tvUsername.text = item.username
+            tvMessage.text = item.email
             cvChatItem.setOnClickListener { listener?.onClick(item) }
+
+//            if(tvUsername.text == ) {
+//                Log.d("test", "Hiding card for ${item.username}")
+//                cvChatItem.visibility = View.GONE
+//            } else {
+//                cvChatItem.visibility = View.VISIBLE
+//            }
         }
     }
 
-    fun setChats(items: MutableList<Chat>) {
+    fun setChats(items: MutableList<User>) {
         val oldItems = this.items
         this.items = items.toMutableList()
         update(oldItems, items) { chat1, chat2 ->
@@ -44,6 +54,6 @@ RecyclerView.Adapter<ChatAdapter.ItemChatHolder>() {
 
 
     interface Listener {
-        fun onClick(item: Chat)
+        fun onClick(item: User)
     }
 }

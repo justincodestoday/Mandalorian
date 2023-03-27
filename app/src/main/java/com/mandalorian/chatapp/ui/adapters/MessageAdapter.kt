@@ -9,6 +9,8 @@ import com.mandalorian.chatapp.R
 import com.mandalorian.chatapp.data.model.Message
 import com.mandalorian.chatapp.databinding.ItemLayoutMessageBinding
 import com.mandalorian.chatapp.utils.Utils.update
+import java.text.SimpleDateFormat
+import java.util.*
 
 class MessageAdapter(private var items: MutableList<Message>, private val context: Context) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -63,6 +65,12 @@ class MessageAdapter(private var items: MutableList<Message>, private val contex
                 cvMessage.setBackgroundResource(R.drawable.outgoing_bubble)
                 tvUserName.text = message.name
                 tvMessage.text = message.message
+
+                // Convert timestamp to date and time
+                val date = Date(message.timestamp)
+                val formatter = SimpleDateFormat("hh:mm a", Locale.getDefault())
+                val formattedDate = formatter.format(date)
+                tvTime.text = formattedDate
             }
         }
     }
@@ -74,6 +82,12 @@ class MessageAdapter(private var items: MutableList<Message>, private val contex
                 cvMessage.setBackgroundResource(R.drawable.incoming_bubble)
                 tvUserName.text = message.name
                 tvMessage.text = message.message
+
+                // Convert timestamp to date and time
+                val date = Date(message.timestamp)
+                val formatter = SimpleDateFormat("hh:mm a", Locale.getDefault())
+                val formattedDate = formatter.format(date)
+                tvTime.text = formattedDate
             }
         }
     }
