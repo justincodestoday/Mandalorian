@@ -3,7 +3,7 @@ package com.mandalorian.chatapp.viewModel
 import androidx.lifecycle.viewModelScope
 import com.mandalorian.chatapp.data.model.Message
 import com.mandalorian.chatapp.data.service.AuthService
-import com.mandalorian.chatapp.repository.RealTimeRepository
+import com.mandalorian.chatapp.repository.RealtimeRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
@@ -11,7 +11,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MessageViewModel @Inject constructor(
-    private val realTimeRepository: RealTimeRepository,
+    private val realTimeRepository: RealtimeRepository,
     private val authService: AuthService
 ) : BaseViewModel() {
 

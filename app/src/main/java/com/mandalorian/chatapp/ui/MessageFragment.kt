@@ -30,6 +30,8 @@ class MessageFragment : BaseFragment<FragmentMessageBinding>() {
                 viewModel.sendMessage(msg)
             }
         }
+
+        throw RuntimeException("Hello, this is an exception")
     }
 
     override fun onBindData(view: View) {
