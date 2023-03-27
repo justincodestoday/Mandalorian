@@ -13,7 +13,6 @@ import com.mandalorian.chatapp.utils.Utils.update
 class MessageAdapter(private var items: MutableList<Message>, private val context: Context) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val binding = ItemLayoutMessageBinding.inflate(layoutInflater, parent, false)

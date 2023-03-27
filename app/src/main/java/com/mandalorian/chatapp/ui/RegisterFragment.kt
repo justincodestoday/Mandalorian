@@ -1,5 +1,4 @@
-package com.mandalorian.chatapp.fragments
-
+package com.mandalorian.chatapp.ui
 
 import android.os.Bundle
 import android.view.View
@@ -7,10 +6,10 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.mandalorian.chatapp.R
 import com.mandalorian.chatapp.databinding.FragmentRegisterBinding
+import com.mandalorian.chatapp.fragments.BaseFragment
 import com.mandalorian.chatapp.viewModel.SignUpViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import java.util.*
 
 @AndroidEntryPoint
 class RegisterFragment : BaseFragment<FragmentRegisterBinding>() {
@@ -35,10 +34,9 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>() {
         super.onBindData(view)
         lifecycleScope.launch {
             viewModel.signupFinish.collect {
-                val action = LoginFragmentDirections.actionLoginFragmentSelf()
+                val action = LoginFragmentDirections.toLogin()
                 navController.navigate(action)
             }
         }
-
     }
 }

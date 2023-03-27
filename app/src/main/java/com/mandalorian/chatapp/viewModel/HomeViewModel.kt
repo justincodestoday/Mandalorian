@@ -23,34 +23,22 @@ class HomeViewModel @Inject constructor(
                 "John Doe",
                 "Jane Doe",
                 listOf(Message("1", "Sed et tortor eu nunc pharetra blandit ut vitae ligula."))
-            ),
-            Chat(
-                "2",
-                "IronMan",
-                "Jane Doe",
-                listOf(Message("1", "Sed et tortor eu nunc pharetra blandit ut vitae ligula."))
-            ),
-            Chat(
-                "3",
-                "Captain America",
-                "Jane Doe",
-                listOf(Message("1", "Sed et tortor eu nunc pharetra blandit ut vitae ligula."))
-            ),
+            )
         )
     )
 
-    override fun onViewCreated() {
-        super.onViewCreated()
-        viewModelScope.launch {
-            realtimeRepository.getAllMessages().collect {
-                Log.d("debugging", it.toString())
-            }
-        }
-    }
-
-    fun addMessage() {
-        viewModelScope.launch {
-            realtimeRepository.addMessage(Message())
-        }
-    }
+//    override fun onViewCreated() {
+//        super.onViewCreated()
+//        viewModelScope.launch {
+//            realtimeRepository.getAllMessages().collect {
+//                Log.d("debugging", it.toString())
+//            }
+//        }
+//    }
+//
+//    fun addMessage() {
+//        viewModelScope.launch {
+//            realtimeRepository.addMessage(Message())
+//        }
+//    }
 }
