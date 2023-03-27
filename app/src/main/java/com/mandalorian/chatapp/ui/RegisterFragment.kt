@@ -1,48 +1,42 @@
-package com.mandalorian.chatapp.fragments
+package com.mandalorian.chatapp.ui
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.mandalorian.chatapp.R
-import com.mandalorian.chatapp.databinding.FragmentLoginBinding
-import com.mandalorian.chatapp.viewModel.SignInViewModel
+import com.mandalorian.chatapp.databinding.FragmentRegisterBinding
+import com.mandalorian.chatapp.fragments.BaseFragment
 import com.mandalorian.chatapp.viewModel.SignUpViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
-
 @AndroidEntryPoint
-class LoginFragment : BaseFragment<FragmentLoginBinding>() {
-    override val viewModel: SignInViewModel by viewModels()
-    override fun getLayoutResource() = R.layout.fragment_login
+class RegisterFragment : BaseFragment<FragmentRegisterBinding>() {
+    override val viewModel: SignUpViewModel by viewModels()
+
+    override fun getLayoutResource() = R.layout.fragment_register
 
     override fun onBindView(view: View, savedInstanceState: Bundle?) {
         super.onBindView(view, savedInstanceState)
         binding?.run {
             button.setOnClickListener {
+                val name = nameEt.text.toString()
                 val email = emailEt.text.toString()
                 val pass = passET.text.toString()
-                viewModel.login(email, pass)
+
+                viewModel.signUp(name, email, pass)
             }
         }
     }
 
     override fun onBindData(view: View) {
         super.onBindData(view)
-
         lifecycleScope.launch {
-            viewModel.loginFinish.collect {
-                val action = LoginFragmentDirections.actionLoginFragmentToHomeFragment()
+            viewModel.signupFinish.collect {
+                val action = LoginFragmentDirections.toLogin()
                 navController.navigate(action)
             }
-        }
-        binding?.textView2?.setOnClickListener {
-            val action = LoginFragmentDirections.actionLoginFragmentToRegisterFragment()
-            navController.navigate(action)
         }
     }
 }

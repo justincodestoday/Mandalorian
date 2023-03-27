@@ -10,7 +10,7 @@ class AuthService(private val auth: FirebaseAuth, private val ref: CollectionRef
     suspend fun register(user: User) {
         val res = auth.createUserWithEmailAndPassword(user.email, user.password).await()
         if (res.user != null) {
-            ref.document(user.email).set(user)
+            auth.uid?.let { ref.document(it).set(user) }
         }
     }
 
