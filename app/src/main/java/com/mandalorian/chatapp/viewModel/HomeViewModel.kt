@@ -1,44 +1,25 @@
 package com.mandalorian.chatapp.viewModel
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.mandalorian.chatapp.data.model.Chat
-import com.mandalorian.chatapp.data.model.Message
-import com.mandalorian.chatapp.repository.RealTimeRepository
+import com.mandalorian.chatapp.data.model.User
+import com.mandalorian.chatapp.repository.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel @Inject constructor(
-    private val realtimeRepository: RealTimeRepository
-) : BaseViewModel() {
+class HomeViewModel @Inject constructor(private val userRepository: UserRepository) :
+    BaseViewModel() {
+    val users: MutableLiveData<List<User>> = MutableLiveData()
 
-    val messages: MutableLiveData<List<Message>> = MutableLiveData()
-    val chats: MutableLiveData<List<Chat>> = MutableLiveData(
-        listOf(
-            Chat(
-                "1",
-                "John Doe",
-                "Jane Doe",
-                listOf(Message("1", "Sed et tortor eu nunc pharetra blandit ut vitae ligula."))
-            )
-        )
-    )
-
-//    override fun onViewCreated() {
-//        super.onViewCreated()
-//        viewModelScope.launch {
-//            realtimeRepository.getAllMessages().collect {
-//                Log.d("debugging", it.toString())
-//            }
-//        }
-//    }
-//
-//    fun addMessage() {
-//        viewModelScope.launch {
-//            realtimeRepository.addMessage(Message())
-//        }
-//    }
+    override fun onViewCreated() {
+        super.onViewCreated()
+        viewModelScope.launch {
+            val res = safeApiCall { userRepository.getUsers() }
+            res.let {
+                users.value = it
+            }
+        }
+    }
 }
