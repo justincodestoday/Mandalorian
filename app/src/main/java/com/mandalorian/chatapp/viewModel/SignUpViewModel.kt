@@ -18,7 +18,7 @@ class SignUpViewModel @Inject constructor(private val authRepo: AuthService) : B
         if (Utils.validate(name, email, password)) {
             viewModelScope.launch {
                 safeApiCall {
-                    authRepo.register(User(name, email, password))
+                    authRepo.register(User(username = name, email = email, password = password))
                     signupFinish.emit(Unit)
                 }
             }

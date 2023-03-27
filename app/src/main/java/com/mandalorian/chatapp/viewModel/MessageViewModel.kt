@@ -2,6 +2,7 @@ package com.mandalorian.chatapp.viewModel
 
 import androidx.lifecycle.viewModelScope
 import com.mandalorian.chatapp.data.model.Message
+import com.mandalorian.chatapp.data.model.User
 import com.mandalorian.chatapp.data.service.AuthService
 import com.mandalorian.chatapp.repository.RealTimeRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -15,21 +16,23 @@ class MessageViewModel @Inject constructor(
     private val authService: AuthService
 ) : BaseViewModel() {
 
-    fun getAllMessages(): Flow<List<Message>> {
-        val user = authService.getUid()
-        return realTimeRepository.getAllMessages("WbqlnuoUTHZPxyIRy3BEhKtaC9d2", "8dqvebiIXDhYWb5NhPGHAGhGMPG3")
+    private val timestamp = System.currentTimeMillis()
+
+    fun getAllMessages(uid2: String): Flow<List<Message>> {
+        return realTimeRepository.getAllMessages(
+            authService.getUid() ?: "", uid2
+        )
     }
 
-    fun sendMessage(msg: String) {
+    fun sendMessage(uid2: String, msg: String) {
         viewModelScope.launch {
             val user = authService.getCurrentUser()
-            val userUID = authService.getUid()
-            if (user != null && userUID != null) {
-                val message = Message(name = user.username, message = msg)
+            user?.let {
+                val message = Message(name = user.username, message = msg, timestamp = timestamp)
                 safeApiCall {
                     realTimeRepository.addMessage(
-                        "WbqlnuoUTHZPxyIRy3BEhKtaC9d2",
-                        "8dqvebiIXDhYWb5NhPGHAGhGMPG3",
+                        authService.getUid() ?: "",
+                        uid2,
                         message
                     )
                 }

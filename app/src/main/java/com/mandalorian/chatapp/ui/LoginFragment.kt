@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import com.mandalorian.chatapp.MyApplication
 import com.mandalorian.chatapp.R
 import com.mandalorian.chatapp.databinding.FragmentLoginBinding
 import com.mandalorian.chatapp.fragments.BaseFragment
@@ -32,6 +33,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
 
         lifecycleScope.launch {
             viewModel.loginFinish.collect {
+                (requireContext().applicationContext as MyApplication).fetchUsername()
                 val action = LoginFragmentDirections.toHome()
                 navController.navigate(action)
             }
