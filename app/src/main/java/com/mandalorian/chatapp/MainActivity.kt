@@ -33,11 +33,11 @@ class MainActivity : AppCompatActivity() {
 
         navController = findNavController(R.id.navHostFragment)
 
-        lifecycleScope.launch {
-            val user = authRepo.getCurrentUser()
-            val username = findViewById<TextView>(R.id.tvUsername)
-            username.text = user?.username
-        }
+//        lifecycleScope.launch {
+//            val user = authRepo.getCurrentUser()
+//            val username = findViewById<TextView>(R.id.tvUsername)
+//            username.text = user?.username
+//        }
 
 
         val drawerLayout = findViewById<DrawerLayout>(R.id.drawerLayout)

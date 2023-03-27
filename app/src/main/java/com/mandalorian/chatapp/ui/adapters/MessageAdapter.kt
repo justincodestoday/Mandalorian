@@ -1,8 +1,10 @@
 package com.mandalorian.chatapp.ui.adapters
 
 import android.content.Context
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.mandalorian.chatapp.MyApplication
 import com.mandalorian.chatapp.R
@@ -10,9 +12,13 @@ import com.mandalorian.chatapp.data.model.Message
 import com.mandalorian.chatapp.databinding.ItemLayoutMessageBinding
 import com.mandalorian.chatapp.utils.Utils.update
 import java.text.SimpleDateFormat
+import java.time.Instant
+import java.time.LocalDateTime
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
 import java.util.*
 
-class MessageAdapter(private var items: MutableList<Message>, private val context: Context) :
+class MessageAdapter(var items: MutableList<Message>, private val context: Context) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -69,6 +75,7 @@ class MessageAdapter(private var items: MutableList<Message>, private val contex
                 // Convert timestamp to date and time
                 val date = Date(message.timestamp)
                 val formatter = SimpleDateFormat("hh:mm a", Locale.getDefault())
+                formatter.timeZone = TimeZone.getDefault() // Set time zone to local time zone
                 val formattedDate = formatter.format(date)
                 tvTime.text = formattedDate
             }
@@ -86,6 +93,7 @@ class MessageAdapter(private var items: MutableList<Message>, private val contex
                 // Convert timestamp to date and time
                 val date = Date(message.timestamp)
                 val formatter = SimpleDateFormat("hh:mm a", Locale.getDefault())
+                formatter.timeZone = TimeZone.getDefault() // Set time zone to local time zone
                 val formattedDate = formatter.format(date)
                 tvTime.text = formattedDate
             }

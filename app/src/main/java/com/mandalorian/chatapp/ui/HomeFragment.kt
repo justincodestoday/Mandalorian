@@ -51,5 +51,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
         binding?.rvChat?.adapter = adapter
         binding?.rvChat?.layoutManager = layoutManager
+
+        layoutManager.scrollToPosition(adapter.itemCount - 1)
     }
 }

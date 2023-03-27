@@ -11,6 +11,8 @@ import com.mandalorian.chatapp.databinding.FragmentMessageBinding
 import com.mandalorian.chatapp.ui.adapters.MessageAdapter
 import com.mandalorian.chatapp.viewModel.MessageViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -26,8 +28,9 @@ class MessageFragment : BaseFragment<FragmentMessageBinding>() {
 
         viewModel.getUser(args.id)
         binding?.run {
-            viewModel.user.observe(viewLifecycleOwner) {
-                tvUsername.text = it.username
+            viewModel.user.observe(viewLifecycleOwner) { user ->
+                tvUsername.text = user.username
+            tvOnlineStatus.text = if (user.online) "Online" else "Offline"
             }
             btnSend.setOnClickListener {
                 val msg = etMessage.text.toString()
@@ -55,5 +58,11 @@ class MessageFragment : BaseFragment<FragmentMessageBinding>() {
 
         binding?.rvMessages?.adapter = adapter
         binding?.rvMessages?.layoutManager = layoutManager
+
+        viewModel.getAllMessages(args.id).onEach { messages ->
+            adapter.items = messages.toMutableList()
+            adapter.notifyDataSetChanged()
+            binding?.rvMessages?.scrollToPosition(adapter.itemCount - 1)
+        }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
 }
