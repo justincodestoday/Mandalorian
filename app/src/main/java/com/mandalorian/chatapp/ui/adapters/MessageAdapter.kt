@@ -64,7 +64,7 @@ class MessageAdapter(private var items: MutableList<Message>, private val contex
             binding.run {
                 cvMessage.setBackgroundResource(R.drawable.outgoing_bubble)
                 tvUserName.text = message.name
-                tvMessage.text = message.message
+                tvMessage.text = message.message.trim()
 
                 // Convert timestamp to date and time
                 val date = Date(message.timestamp)
@@ -81,7 +81,7 @@ class MessageAdapter(private var items: MutableList<Message>, private val contex
             binding.run {
                 cvMessage.setBackgroundResource(R.drawable.incoming_bubble)
                 tvUserName.text = message.name
-                tvMessage.text = message.message
+                tvMessage.text = message.message.trim()
 
                 // Convert timestamp to date and time
                 val date = Date(message.timestamp)

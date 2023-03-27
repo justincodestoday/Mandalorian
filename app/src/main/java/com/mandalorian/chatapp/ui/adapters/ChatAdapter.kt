@@ -27,6 +27,7 @@ RecyclerView.Adapter<ChatAdapter.ItemChatHolder>() {
         val item = items[position]
         holder.binding.run {
             tvUsername.text = item.username
+            tvMessage.text = "ID :\n${item.id}"
             cvChatItem.setOnClickListener { listener?.onClick(item) }
         }
     }
