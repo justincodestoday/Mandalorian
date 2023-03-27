@@ -73,7 +73,7 @@ class MessageAdapter(var items: MutableList<Message>, private val context: Conte
                 tvMessage.text = message.message.trim()
 
                 // Convert timestamp to date and time
-                val date = Date(message.timestamp)
+                val date = Date(message.timestamp as Long)
                 val formatter = SimpleDateFormat("hh:mm a", Locale.getDefault())
                 formatter.timeZone = TimeZone.getDefault() // Set time zone to local time zone
                 val formattedDate = formatter.format(date)
@@ -91,7 +91,7 @@ class MessageAdapter(var items: MutableList<Message>, private val context: Conte
                 tvMessage.text = message.message.trim()
 
                 // Convert timestamp to date and time
-                val date = Date(message.timestamp)
+                val date = Date(message.timestamp as Long)
                 val formatter = SimpleDateFormat("hh:mm a", Locale.getDefault())
                 formatter.timeZone = TimeZone.getDefault() // Set time zone to local time zone
                 val formattedDate = formatter.format(date)

@@ -1,5 +1,7 @@
 package com.mandalorian.chatapp.viewModel
 
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -25,18 +27,21 @@ class MessageViewModel @Inject constructor(
     private val userId = authService.getUid()
     private val timestamp = ServerValue.TIMESTAMP
 
-    init {
+    fun initializeUserStatus() {
         val userRef = FirebaseDatabase.getInstance().getReference("users").child(userId!!)
         val connectedRef = FirebaseDatabase.getInstance().getReference(".info/connected")
 
         connectedRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val connected = snapshot.getValue(Boolean::class.java) ?: false
+                Log.d("MessageViewModel", "User connected: $connected")
                 if (connected) {
                     userRef.child("online").setValue(true)
                     userRef.child("lastSeen").setValue(timestamp)
+                    Log.d("MessageViewModel", "User is online")
                 } else {
                     userRef.child("online").onDisconnect().setValue(false)
+                    Log.d("MessageViewModel", "User is offline")
                 }
             }
 
@@ -54,7 +59,7 @@ class MessageViewModel @Inject constructor(
         viewModelScope.launch {
             val user = authService.getCurrentUser()
             if (user != null) {
-                    val message = Message(name = user.username, message = msg,  timestamp = ServerValue.TIMESTAMP["timestamp"]?.toLong() ?: 0L)
+                val message = Message(name = user.username, message = msg)
                 safeApiCall {
                     realTimeRepository.addMessage(userId!!, uid2, message)
                 }
@@ -67,6 +72,20 @@ class MessageViewModel @Inject constructor(
             val res = safeApiCall { userRepo.getUser(uid) }
             res.let {
                 user.value = it
+                val userRef = FirebaseDatabase.getInstance().getReference("users").child(uid)
+                userRef.addValueEventListener(object : ValueEventListener {
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        val connected =
+                            snapshot.child("online").getValue(Boolean::class.java) ?: false
+                        user.value?.online = connected
+                        Log.d("MessageFragment", "User online status: $connected")
+                        // Update the user LiveData with the online status of the user
+                    }
+
+                    override fun onCancelled(error: DatabaseError) {
+                        Log.w("test", "Listener was cancelled")
+                    }
+                })
             }
         }
     }

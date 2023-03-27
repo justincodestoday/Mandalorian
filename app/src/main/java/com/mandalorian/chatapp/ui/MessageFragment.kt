@@ -1,11 +1,13 @@
 package com.mandalorian.chatapp.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.firebase.auth.FirebaseAuth
 import com.mandalorian.chatapp.R
 import com.mandalorian.chatapp.databinding.FragmentMessageBinding
 import com.mandalorian.chatapp.ui.adapters.MessageAdapter
@@ -26,11 +28,11 @@ class MessageFragment : BaseFragment<FragmentMessageBinding>() {
         super.onBindView(view, savedInstanceState)
         setupAdapter()
 
-        viewModel.getUser(args.id)
         binding?.run {
+            viewModel.getUser(args.id)
             viewModel.user.observe(viewLifecycleOwner) { user ->
                 tvUsername.text = user.username
-            tvOnlineStatus.text = if (user.online) "Online" else "Offline"
+                tvOnlineStatus.text = if (user.online) "Online" else "Offline"
             }
             btnSend.setOnClickListener {
                 val msg = etMessage.text.toString()
@@ -44,6 +46,8 @@ class MessageFragment : BaseFragment<FragmentMessageBinding>() {
 
     override fun onBindData(view: View) {
         super.onBindData(view)
+
+        viewModel.initializeUserStatus()
 
         lifecycleScope.launch {
             viewModel.getAllMessages(args.id).collect {
