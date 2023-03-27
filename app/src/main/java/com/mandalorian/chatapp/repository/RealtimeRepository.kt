@@ -23,12 +23,6 @@ class RealTimeRepository {
         }
     }
 
-    // work
-
-//    suspend fun addMessage(msg: Message) {
-//        ref.push().setValue(msg).await()
-//    }
-
     suspend fun addMessage(uid1: String, uid2: String, msg: Message) {
         val uid = getCombinedUid(uid1, uid2)
         Log.d("debugging", "$ref")
@@ -57,24 +51,4 @@ class RealTimeRepository {
         })
         awaitClose { }
     }
-
-//    fun getAllMessages() = callbackFlow<List<Message>> {
-//        ref.addValueEventListener(object : ValueEventListener {
-//            override fun onDataChange(snapshot: DataSnapshot) {
-//                val messages = mutableListOf<Message>()
-//                snapshot.children.forEach {
-//                    val msg = it.getValue<Message>()
-//                    msg?.let { message ->
-//                        messages.add(message)
-//                    }
-//                }
-//                trySend(messages)
-//            }
-//
-//            override fun onCancelled(error: DatabaseError) {
-//                Log.d("debugging", "cancelled", error.toException())
-//            }
-//        })
-//        awaitClose { }
-//    }
 }
