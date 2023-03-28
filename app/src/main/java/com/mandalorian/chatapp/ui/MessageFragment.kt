@@ -16,6 +16,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.*
 
 @AndroidEntryPoint
 class MessageFragment : BaseFragment<FragmentMessageBinding>() {
@@ -30,9 +32,20 @@ class MessageFragment : BaseFragment<FragmentMessageBinding>() {
 
         binding?.run {
             viewModel.getUser(args.id)
+            viewModel.person.observe(viewLifecycleOwner) { person ->
+                tvUsername.text = person?.username ?: ""
+            }
             viewModel.user.observe(viewLifecycleOwner) { user ->
-                tvUsername.text = user.username
-                tvOnlineStatus.text = if (user.online) "Online" else "Offline"
+                val lastSeen = user.lastSeen
+                val date = Date(lastSeen)
+                val formatter = SimpleDateFormat("hh:mm a", Locale.getDefault())
+                val lastSeenTime = formatter.format(date)
+                if (user?.online == true) {
+                    tvOnlineStatus.text = "Online ●"
+                } else {
+                    tvOnlineStatus.text = "Last seen at: ${lastSeenTime}"
+                }
+                Log.d("debugging", user.toString())
             }
             btnSend.setOnClickListener {
                 val msg = etMessage.text.toString()
@@ -40,8 +53,6 @@ class MessageFragment : BaseFragment<FragmentMessageBinding>() {
                 viewModel.sendMessage(args.id, msg)
             }
         }
-
-//        throw RuntimeException("Hello, this is an exception")
     }
 
     override fun onBindData(view: View) {

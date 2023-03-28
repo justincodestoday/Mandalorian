@@ -6,6 +6,8 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.database.*
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 import com.mandalorian.chatapp.data.model.Message
 import com.mandalorian.chatapp.data.model.User
 import com.mandalorian.chatapp.data.service.AuthService
@@ -24,12 +26,13 @@ class MessageViewModel @Inject constructor(
 ) : BaseViewModel() {
 
     val user: MutableLiveData<User> = MutableLiveData()
+    val person: MutableLiveData<User> = MutableLiveData()
     private val userId = authService.getUid()
     private val timestamp = ServerValue.TIMESTAMP
 
     fun initializeUserStatus() {
-        val userRef = FirebaseDatabase.getInstance().getReference("users").child(userId!!)
-        val connectedRef = FirebaseDatabase.getInstance().getReference(".info/connected")
+        val userRef = Firebase.database.getReference("users").child(userId!!)
+        val connectedRef = Firebase.database.getReference(".info/connected")
 
         connectedRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -71,13 +74,18 @@ class MessageViewModel @Inject constructor(
         viewModelScope.launch {
             val res = safeApiCall { userRepo.getUser(uid) }
             res.let {
-                user.value = it
+                person.value = it
                 val userRef = FirebaseDatabase.getInstance().getReference("users").child(uid)
                 userRef.addValueEventListener(object : ValueEventListener {
                     override fun onDataChange(snapshot: DataSnapshot) {
                         val connected =
                             snapshot.child("online").getValue(Boolean::class.java) ?: false
-                        user.value?.online = connected
+                        val lastSeen = snapshot.child("lastSeen").getValue(Long::class.java) ?: 0L
+                        val updatedUser = User(
+                            online = connected,
+                            lastSeen = lastSeen
+                        )
+                        user.value = updatedUser
                         Log.d("MessageFragment", "User online status: $connected")
                         // Update the user LiveData with the online status of the user
                     }
