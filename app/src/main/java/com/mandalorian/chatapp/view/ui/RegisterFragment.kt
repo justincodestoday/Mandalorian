@@ -1,4 +1,4 @@
-package com.mandalorian.chatapp.ui
+package com.mandalorian.chatapp.view.ui
 
 import android.os.Bundle
 import android.view.View
@@ -19,23 +19,21 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>() {
 
     override fun onBindView(view: View, savedInstanceState: Bundle?) {
         super.onBindView(view, savedInstanceState)
-        binding?.run {
-            button.setOnClickListener {
-                val name = nameEt.text.toString()
-                val email = emailEt.text.toString()
-                val pass = passET.text.toString()
-
-                viewModel.signUp(name, email, pass)
-            }
-        }
+        binding?.viewModel = viewModel
     }
 
     override fun onBindData(view: View) {
         super.onBindData(view)
         lifecycleScope.launch {
             viewModel.signupFinish.collect {
-                val action = LoginFragmentDirections.toLogin()
+                val action = RegisterFragmentDirections.toLogin()
                 navController.navigate(action)
+            }
+        }
+
+        lifecycleScope.launch {
+            viewModel.signInComplete.collect {
+                navController.popBackStack()
             }
         }
     }

@@ -1,4 +1,4 @@
-package com.mandalorian.chatapp.data.model
+package com.mandalorian.chatapp.model.model
 
 import com.google.firebase.database.IgnoreExtraProperties
 import com.google.firebase.database.ServerValue

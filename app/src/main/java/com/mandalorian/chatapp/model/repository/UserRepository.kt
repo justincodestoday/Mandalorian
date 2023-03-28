@@ -1,7 +1,7 @@
-package com.mandalorian.chatapp.repository
+package com.mandalorian.chatapp.model.repository
 
 import com.google.firebase.firestore.CollectionReference
-import com.mandalorian.chatapp.data.model.User
+import com.mandalorian.chatapp.model.model.User
 import kotlinx.coroutines.tasks.await
 
 class UserRepository(private val ref: CollectionReference) {

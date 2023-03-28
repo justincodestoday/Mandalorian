@@ -1,21 +1,15 @@
-package com.mandalorian.chatapp.ui.adapters
+package com.mandalorian.chatapp.view.adapters
 
 import android.content.Context
-import android.os.Build
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.mandalorian.chatapp.MyApplication
 import com.mandalorian.chatapp.R
-import com.mandalorian.chatapp.data.model.Message
+import com.mandalorian.chatapp.model.model.Message
 import com.mandalorian.chatapp.databinding.ItemLayoutMessageBinding
 import com.mandalorian.chatapp.utils.Utils.update
 import java.text.SimpleDateFormat
-import java.time.Instant
-import java.time.LocalDateTime
-import java.time.ZoneId
-import java.time.format.DateTimeFormatter
 import java.util.*
 
 class MessageAdapter(var items: MutableList<Message>, private val context: Context) :

@@ -1,7 +1,7 @@
 package com.mandalorian.chatapp
 
 import android.app.Application
-import com.mandalorian.chatapp.data.service.AuthService
+import com.mandalorian.chatapp.service.AuthService
 import dagger.hilt.android.HiltAndroidApp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

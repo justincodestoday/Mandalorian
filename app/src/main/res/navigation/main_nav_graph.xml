@@ -14,15 +14,15 @@
         app:destination="@id/homeFragment" />
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.mandalorian.chatapp.ui.LoginFragment"
+        android:name="com.mandalorian.chatapp.view.ui.LoginFragment"
         android:label="LoginFragment" />
     <fragment
         android:id="@+id/registerFragment"
-        android:name="com.mandalorian.chatapp.ui.RegisterFragment"
+        android:name="com.mandalorian.chatapp.view.ui.RegisterFragment"
         android:label="RegisterFragment" />
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.mandalorian.chatapp.ui.HomeFragment"
+        android:name="com.mandalorian.chatapp.view.ui.HomeFragment"
         android:label="HomeFragment">
         <action
             android:id="@+id/action_homeFragment_to_messageFragment"

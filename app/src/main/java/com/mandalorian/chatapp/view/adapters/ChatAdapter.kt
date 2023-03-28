@@ -1,10 +1,9 @@
-package com.mandalorian.chatapp.ui.adapters
+package com.mandalorian.chatapp.view.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.mandalorian.chatapp.data.model.Chat
-import com.mandalorian.chatapp.data.model.User
+import com.mandalorian.chatapp.model.model.User
 import com.mandalorian.chatapp.databinding.ItemLayoutChatBinding
 import com.mandalorian.chatapp.utils.Utils.update
 
@@ -27,7 +26,7 @@ RecyclerView.Adapter<ChatAdapter.ItemChatHolder>() {
         val item = items[position]
         holder.binding.run {
             tvUsername.text = item.username
-            tvMessage.text = "ID :\n${item.id}"
+            tvMessage.text = "${item.email}"
             cvChatItem.setOnClickListener { listener?.onClick(item) }
         }
     }

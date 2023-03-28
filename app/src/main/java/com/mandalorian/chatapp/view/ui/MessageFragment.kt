@@ -1,5 +1,6 @@
 package com.mandalorian.chatapp.fragments
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -10,7 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.FirebaseAuth
 import com.mandalorian.chatapp.R
 import com.mandalorian.chatapp.databinding.FragmentMessageBinding
-import com.mandalorian.chatapp.ui.adapters.MessageAdapter
+import com.mandalorian.chatapp.view.adapters.MessageAdapter
 import com.mandalorian.chatapp.viewModel.MessageViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
@@ -29,13 +30,14 @@ class MessageFragment : BaseFragment<FragmentMessageBinding>() {
     override fun onBindView(view: View, savedInstanceState: Bundle?) {
         super.onBindView(view, savedInstanceState)
         setupAdapter()
+        binding?.viewModel = viewModel
 
         binding?.run {
-            viewModel.getUser(args.id)
-            viewModel.person.observe(viewLifecycleOwner) { person ->
+            viewModel?.getUser(args.id)
+            viewModel?.person?.observe(viewLifecycleOwner) { person ->
                 tvUsername.text = person?.username ?: ""
             }
-            viewModel.user.observe(viewLifecycleOwner) { user ->
+            viewModel?.user?.observe(viewLifecycleOwner) { user ->
                 val lastSeen = user.lastSeen
                 val date = Date(lastSeen)
                 val formatter = SimpleDateFormat("hh:mm a", Locale.getDefault())
@@ -43,14 +45,9 @@ class MessageFragment : BaseFragment<FragmentMessageBinding>() {
                 if (user?.online == true) {
                     tvOnlineStatus.text = "Online ●"
                 } else {
-                    tvOnlineStatus.text = "Last seen at: ${lastSeenTime}"
+                    tvOnlineStatus.text = "Last seen: ${lastSeenTime}"
                 }
                 Log.d("debugging", user.toString())
-            }
-            btnSend.setOnClickListener {
-                val msg = etMessage.text.toString()
-                etMessage.setText("")
-                viewModel.sendMessage(args.id, msg)
             }
         }
     }
@@ -67,6 +64,7 @@ class MessageFragment : BaseFragment<FragmentMessageBinding>() {
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun setupAdapter() {
         val layoutManager = LinearLayoutManager(requireContext())
         adapter = MessageAdapter(mutableListOf(), requireContext())

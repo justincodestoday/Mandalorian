@@ -1,4 +1,4 @@
-package com.mandalorian.chatapp.data.model
+package com.mandalorian.chatapp.model.model
 
 data class Chat (
     val id: String = "",

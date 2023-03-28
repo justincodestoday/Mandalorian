@@ -1,20 +1,21 @@
 package com.mandalorian.chatapp.viewModel
 
-import android.os.Handler
-import android.os.Looper
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.database.*
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
-import com.mandalorian.chatapp.data.model.Message
-import com.mandalorian.chatapp.data.model.User
-import com.mandalorian.chatapp.data.service.AuthService
-import com.mandalorian.chatapp.repository.RealTimeRepository
-import com.mandalorian.chatapp.repository.UserRepository
+import com.mandalorian.chatapp.model.model.Message
+import com.mandalorian.chatapp.model.model.User
+import com.mandalorian.chatapp.service.AuthService
+import com.mandalorian.chatapp.model.repository.RealTimeRepository
+import com.mandalorian.chatapp.model.repository.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -22,13 +23,18 @@ import javax.inject.Inject
 class MessageViewModel @Inject constructor(
     private val realTimeRepository: RealTimeRepository,
     private val userRepo: UserRepository,
-    private val authService: AuthService
+    private val authService: AuthService,
+    private val savedStateHandler: SavedStateHandle
 ) : BaseViewModel() {
 
     val user: MutableLiveData<User> = MutableLiveData()
     val person: MutableLiveData<User> = MutableLiveData()
     private val userId = authService.getUid()
     private val timestamp = ServerValue.TIMESTAMP
+
+    val txt: MutableStateFlow<String> = MutableStateFlow("")
+    val uid2 = savedStateHandler.get<String>("id") ?: ""
+
 
     fun initializeUserStatus() {
         val userRef = Firebase.database.getReference("users").child(userId!!)
@@ -58,14 +64,15 @@ class MessageViewModel @Inject constructor(
         return realTimeRepository.getAllMessages(userId!!, uid2)
     }
 
-    fun sendMessage(uid2: String, msg: String) {
+    fun sendMessage() {
         viewModelScope.launch {
             val user = authService.getCurrentUser()
             if (user != null) {
-                val message = Message(name = user.username, message = msg)
+                val message = Message(name = user.username, message = txt.value)
                 safeApiCall {
                     realTimeRepository.addMessage(userId!!, uid2, message)
                 }
+                txt.value = ""
             }
         }
     }
