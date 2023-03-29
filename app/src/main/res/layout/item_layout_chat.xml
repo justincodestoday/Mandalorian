@@ -28,7 +28,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="25dp"
                 android:layout_weight="1"
                 android:orientation="vertical">
 
@@ -42,7 +42,7 @@
 
                 <TextView
                     android:id="@+id/tvMessage"
-                    android:layout_width="match_parent"
+                    android:layout_width="300dp"
                     android:layout_height="wrap_content"
                     android:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry."
                     android:textColor="@color/white" />
@@ -51,7 +51,7 @@
             <TextView
                 android:id="@+id/tvTime"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginEnd="10dp"
                 android:text="23:20"
                 android:textColor="@color/light_gray" />

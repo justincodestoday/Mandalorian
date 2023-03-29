@@ -5,6 +5,6 @@ data class User(
     val username: String = "",
     val email: String = "",
     val password: String = "",
-    val online: Boolean = false,
-    val lastSeen: Long = 0
+    var online: Boolean = false,
+    var lastSeen: Long = 0L
 )
