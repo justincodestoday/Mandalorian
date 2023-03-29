@@ -7,9 +7,9 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import com.mandalorian.chatapp.data.service.AuthService
-import com.mandalorian.chatapp.repository.RealTimeRepository
-import com.mandalorian.chatapp.repository.UserRepository
+import com.mandalorian.chatapp.service.AuthService
+import com.mandalorian.chatapp.data.repository.RealTimeRepository
+import com.mandalorian.chatapp.data.repository.UserRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

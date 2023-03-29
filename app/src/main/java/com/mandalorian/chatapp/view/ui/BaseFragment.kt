@@ -10,7 +10,11 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
+import com.google.android.material.snackbar.Snackbar
+import com.mandalorian.chatapp.R
 import com.mandalorian.chatapp.viewModel.BaseViewModel
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 abstract class BaseFragment<T : ViewDataBinding> : Fragment() {
     lateinit var navController: NavController
@@ -43,6 +47,13 @@ abstract class BaseFragment<T : ViewDataBinding> : Fragment() {
 
     open fun onBindView(view: View, savedInstanceState: Bundle?) {
         binding = DataBindingUtil.bind(view)
+        binding?.lifecycleOwner = viewLifecycleOwner
+        lifecycleScope.launch {
+            viewModel.error.collect {
+//                val snackBar = Snackbar.make(view, R.color.yellow, )
+//                snackBar
+            }
+        }
     }
 
     open fun onBindData(view: View) {}

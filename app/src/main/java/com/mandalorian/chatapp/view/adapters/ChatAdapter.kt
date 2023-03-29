@@ -1,9 +1,8 @@
-package com.mandalorian.chatapp.ui.adapters
+package com.mandalorian.chatapp.view.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.mandalorian.chatapp.data.model.Chat
 import com.mandalorian.chatapp.data.model.User
 import com.mandalorian.chatapp.databinding.ItemLayoutChatBinding
 import com.mandalorian.chatapp.utils.Utils.update

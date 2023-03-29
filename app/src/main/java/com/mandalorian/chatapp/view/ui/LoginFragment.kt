@@ -1,4 +1,4 @@
-package com.mandalorian.chatapp.ui
+package com.mandalorian.chatapp.view.ui
 
 import android.os.Bundle
 import android.view.View
@@ -19,28 +19,33 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
 
     override fun onBindView(view: View, savedInstanceState: Bundle?) {
         super.onBindView(view, savedInstanceState)
-        binding?.run {
-            button.setOnClickListener {
-                val email = emailEt.text.toString()
-                val pass = passET.text.toString()
-                viewModel.login(email, pass)
-            }
-        }
+        binding?.viewModel = viewModel
     }
 
     override fun onBindData(view: View) {
         super.onBindData(view)
 
         lifecycleScope.launch {
-            viewModel.loginFinish.collect {
-                (requireContext().applicationContext as MyApplication).fetchUsername()
-                val action = LoginFragmentDirections.toHome()
-                navController.navigate(action)
+            viewModel.signInComplete.collect {
+                navigateToHome()
             }
         }
-        binding?.textView2?.setOnClickListener {
-            val action = LoginFragmentDirections.toRegister()
-            navController.navigate(action)
+
+        lifecycleScope.launch {
+            viewModel.signUpComplete.collect {
+                navigateToSignUp()
+            }
         }
+    }
+
+    private fun navigateToSignUp() {
+        val action = LoginFragmentDirections.toRegister()
+        navController.navigate(action)
+    }
+
+    private fun navigateToHome() {
+        (requireContext().applicationContext as MyApplication).fetchUsername()
+        val action = LoginFragmentDirections.toHome()
+        navController.navigate(action)
     }
 }

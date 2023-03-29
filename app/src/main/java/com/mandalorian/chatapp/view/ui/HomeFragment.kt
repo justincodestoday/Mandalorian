@@ -1,4 +1,4 @@
-package com.mandalorian.chatapp.ui
+package com.mandalorian.chatapp.view.ui
 
 import android.os.Bundle
 import android.view.View
@@ -9,7 +9,7 @@ import com.mandalorian.chatapp.R
 import com.mandalorian.chatapp.data.model.User
 import com.mandalorian.chatapp.databinding.FragmentHomeBinding
 import com.mandalorian.chatapp.fragments.BaseFragment
-import com.mandalorian.chatapp.ui.adapters.ChatAdapter
+import com.mandalorian.chatapp.view.adapters.ChatAdapter
 import com.mandalorian.chatapp.viewModel.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 

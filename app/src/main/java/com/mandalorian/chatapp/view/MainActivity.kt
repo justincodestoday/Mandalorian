@@ -1,12 +1,9 @@
-package com.mandalorian.chatapp
+package com.mandalorian.chatapp.view
 
-import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.TextView
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -15,9 +12,9 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.navigation.NavigationView
-import com.mandalorian.chatapp.data.service.AuthService
+import com.mandalorian.chatapp.R
+import com.mandalorian.chatapp.service.AuthService
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -32,13 +29,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         navController = findNavController(R.id.navHostFragment)
-
-//        lifecycleScope.launch {
-//            val user = authRepo.getCurrentUser()
-//            val username = findViewById<TextView>(R.id.tvUsername)
-//            username.text = user?.username
-//        }
-
 
         val drawerLayout = findViewById<DrawerLayout>(R.id.drawerLayout)
         appBarConfiguration = AppBarConfiguration(navController.graph, drawerLayout)

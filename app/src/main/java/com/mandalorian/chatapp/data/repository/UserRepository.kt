@@ -1,4 +1,4 @@
-package com.mandalorian.chatapp.repository
+package com.mandalorian.chatapp.data.repository
 
 import com.google.firebase.firestore.CollectionReference
 import com.mandalorian.chatapp.data.model.User
@@ -21,3 +21,5 @@ class UserRepository(private val ref: CollectionReference) {
         return res.toObject(User::class.java)
     }
 }
+
+// Model, View, ViewModel

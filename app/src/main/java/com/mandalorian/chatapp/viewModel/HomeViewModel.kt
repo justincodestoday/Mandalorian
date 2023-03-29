@@ -3,8 +3,8 @@ package com.mandalorian.chatapp.viewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.mandalorian.chatapp.data.model.User
-import com.mandalorian.chatapp.data.service.AuthService
-import com.mandalorian.chatapp.repository.UserRepository
+import com.mandalorian.chatapp.service.AuthService
+import com.mandalorian.chatapp.data.repository.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject

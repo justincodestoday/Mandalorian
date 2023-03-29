@@ -1,4 +1,4 @@
-package com.mandalorian.chatapp.repository
+package com.mandalorian.chatapp.data.repository
 
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase

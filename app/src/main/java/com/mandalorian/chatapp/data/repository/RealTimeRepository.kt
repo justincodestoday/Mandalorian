@@ -1,4 +1,4 @@
-package com.mandalorian.chatapp.repository
+package com.mandalorian.chatapp.data.repository
 
 import android.util.Log
 import com.google.firebase.database.DataSnapshot
