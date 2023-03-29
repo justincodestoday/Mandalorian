@@ -1,8 +1,8 @@
-package com.mandalorian.chatapp.data.service
+package com.mandalorian.chatapp.service
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.CollectionReference
-import com.mandalorian.chatapp.data.model.User
+import com.mandalorian.chatapp.model.model.User
 import kotlinx.coroutines.tasks.await
 
 class AuthService(private val auth: FirebaseAuth, private val ref: CollectionReference) {

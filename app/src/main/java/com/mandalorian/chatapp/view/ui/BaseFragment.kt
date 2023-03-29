@@ -43,6 +43,7 @@ abstract class BaseFragment<T : ViewDataBinding> : Fragment() {
 
     open fun onBindView(view: View, savedInstanceState: Bundle?) {
         binding = DataBindingUtil.bind(view)
+        binding?.lifecycleOwner = viewLifecycleOwner
     }
 
     open fun onBindData(view: View) {}
