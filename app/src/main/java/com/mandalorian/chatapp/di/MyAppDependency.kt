@@ -8,8 +8,11 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.mandalorian.chatapp.service.AuthService
-import com.mandalorian.chatapp.data.repository.RealtimeRepository
-import com.mandalorian.chatapp.data.repository.UserRepository
+import com.mandalorian.chatapp.data.repository.RealTimeRepositoryImpl
+import com.mandalorian.chatapp.data.repository.UserRepositoryImpl
+import com.mandalorian.chatapp.domain.repository.RealTimeRepository
+import com.mandalorian.chatapp.domain.repository.UserRepository
+import com.mandalorian.chatapp.domain.usecase.GetUsersUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -46,13 +49,20 @@ object MyAppDependency {
 
     @Provides
     @Singleton
-    fun getRealTimeRepository(): RealtimeRepository {
-        return RealtimeRepository()
+    fun getRealTimeRepository(): RealTimeRepository {
+        return RealTimeRepositoryImpl()
     }
 
     @Provides
     @Singleton
     fun provideUserRepository(db: FirebaseFirestore): UserRepository {
-        return UserRepository(db.collection("users"))
+        return UserRepositoryImpl(db.collection("users"))
     }
+
+//    @Provides
+//    @Singleton
+//    fun provideGetUserUseCase(userRepository: UserRepository): GetUsersUseCase {
+//        return GetUsersUseCase(userRepository)
+//    }
+
 }

@@ -10,13 +10,13 @@ import com.mandalorian.chatapp.data.model.User
 import com.mandalorian.chatapp.databinding.FragmentHomeBinding
 import com.mandalorian.chatapp.ui.presentation.base.BaseFragment
 import com.mandalorian.chatapp.ui.presentation.adapters.ChatAdapter
-import com.mandalorian.chatapp.ui.presentation.home.viewModel.HomeViewModel
+import com.mandalorian.chatapp.ui.presentation.home.viewModel.HomeViewModelImpl
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     private lateinit var adapter: ChatAdapter
-    override val viewModel: HomeViewModel by viewModels()
+    override val viewModel: HomeViewModelImpl by viewModels()
     override fun getLayoutResource() = R.layout.fragment_home
 
     override fun onBindView(view: View, savedInstanceState: Bundle?) {

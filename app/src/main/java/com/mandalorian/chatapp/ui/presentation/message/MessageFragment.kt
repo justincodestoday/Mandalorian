@@ -2,9 +2,13 @@ package com.mandalorian.chatapp.ui.presentation.message
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
+import android.os.Handler
+import android.os.Looper
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -27,10 +31,43 @@ class MessageFragment : BaseFragment<FragmentMessageBinding>() {
     override fun getLayoutResource() = R.layout.fragment_message
     private val args: MessageFragmentArgs by navArgs()
 
+    private val typingHandler = Handler(Looper.getMainLooper())
+    private val typingDelay = 3000L // 3 seconds delay
+    private val typingRunnable = Runnable {
+        viewModel.setTypingIndicator(false)
+    }
+
+    private fun onMessageTextChanged() {
+        val messageText = binding?.etMessage?.text.toString()
+        if (messageText.isBlank()) {
+            typingHandler.removeCallbacks(typingRunnable)
+            viewModel.setTypingIndicator(false)
+        } else {
+            typingHandler.removeCallbacks(typingRunnable)
+            viewModel.setTypingIndicator(true)
+            typingHandler.postDelayed(typingRunnable, typingDelay)
+        }
+    }
+
     override fun onBindView(view: View, savedInstanceState: Bundle?) {
         super.onBindView(view, savedInstanceState)
         setupAdapter()
         binding?.viewModel = viewModel
+
+        binding?.etMessage?.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                // not needed in this case
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                // call onMessageTextChanged to update the typing indicator
+                onMessageTextChanged()
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                // not needed in this case
+            }
+        })
 
         binding?.run {
             viewModel?.getUser(args.id)
@@ -42,12 +79,13 @@ class MessageFragment : BaseFragment<FragmentMessageBinding>() {
                 val date = Date(lastSeen)
                 val formatter = SimpleDateFormat("hh:mm a", Locale.getDefault())
                 val lastSeenTime = formatter.format(date)
-                if (user?.online == true) {
+                if (user?.isTyping == true) {
+                    tvOnlineStatus.text = "typing..."
+                } else if (user?.online == true) {
                     tvOnlineStatus.text = "Online ●"
                 } else {
-                    tvOnlineStatus.text = "Last seen: ${lastSeenTime}"
+                    tvOnlineStatus.text = "Last seen: $lastSeenTime"
                 }
-                Log.d("debugging", user.toString())
             }
         }
     }
@@ -57,25 +95,22 @@ class MessageFragment : BaseFragment<FragmentMessageBinding>() {
 
         viewModel.initializeUserStatus()
 
-        lifecycleScope.launch {
-            viewModel.getAllMessages(args.id).collect {
-                adapter.setMessages(it.toMutableList())
-            }
+        viewModel.messages.asLiveData().observe(viewLifecycleOwner) {
+            adapter.setMessages(it.toMutableList())
         }
+
     }
 
-    private fun setupAdapter() {
+    fun setupAdapter() {
         val layoutManager = LinearLayoutManager(requireContext())
         adapter = MessageAdapter(mutableListOf(), requireContext())
 
         binding?.rvMessages?.adapter = adapter
         binding?.rvMessages?.layoutManager = layoutManager
-        binding?.rvMessages?.scrollToPosition(adapter.itemCount - 1)
 
-//        viewModel.getAllMessages(args.id).onEach { messages ->
-//            adapter.items = messages.toMutableList()
-//            adapter.notifyDataSetChanged()
-//            binding?.rvMessages?.scrollToPosition(adapter.itemCount - 1)
-//        }.launchIn(viewLifecycleOwner.lifecycleScope)
+        viewModel.messages.asLiveData().observe(viewLifecycleOwner) {
+            adapter.setMessages(it.toMutableList())
+            binding?.rvMessages?.scrollToPosition(adapter.itemCount - 1)
+        }
     }
 }
