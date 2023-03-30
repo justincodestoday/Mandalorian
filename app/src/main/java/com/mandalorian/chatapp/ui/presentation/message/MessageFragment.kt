@@ -2,6 +2,8 @@ package com.mandalorian.chatapp.ui.presentation.message
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
@@ -29,12 +31,21 @@ class MessageFragment : BaseFragment<FragmentMessageBinding>() {
     override fun getLayoutResource() = R.layout.fragment_message
     private val args: MessageFragmentArgs by navArgs()
 
+    private val typingHandler = Handler(Looper.getMainLooper())
+    private val typingDelay = 3000L // 3 seconds delay
+    private val typingRunnable = Runnable {
+        viewModel.setTypingIndicator(false)
+    }
+
     private fun onMessageTextChanged() {
         val messageText = binding?.etMessage?.text.toString()
         if (messageText.isBlank()) {
+            typingHandler.removeCallbacks(typingRunnable)
             viewModel.setTypingIndicator(false)
         } else {
+            typingHandler.removeCallbacks(typingRunnable)
             viewModel.setTypingIndicator(true)
+            typingHandler.postDelayed(typingRunnable, typingDelay)
         }
     }
 
@@ -69,7 +80,7 @@ class MessageFragment : BaseFragment<FragmentMessageBinding>() {
                 val formatter = SimpleDateFormat("hh:mm a", Locale.getDefault())
                 val lastSeenTime = formatter.format(date)
                 if (user?.isTyping == true) {
-                    tvOnlineStatus.text = "Typing..."
+                    tvOnlineStatus.text = "typing..."
                 } else if (user?.online == true) {
                     tvOnlineStatus.text = "Online ●"
                 } else {
