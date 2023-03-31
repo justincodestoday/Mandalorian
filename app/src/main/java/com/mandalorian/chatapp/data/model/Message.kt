@@ -8,5 +8,6 @@ data class Message(
     val id: String = "",
     val name: String = "",
     val message: String = "",
+    var imageUrl: String? = null,
     var timestamp: Any? = ServerValue.TIMESTAMP
 )
