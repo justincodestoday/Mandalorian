@@ -10,7 +10,7 @@ import javax.inject.Inject
 class LoginUseCase @Inject constructor(
     private val authService: AuthService
 ) {
-    operator fun invoke(event: LoginEvent) = flow<Resource<Boolean>> {
+    operator fun invoke(event: LoginEvent) = flow {
         try {
             when (event) {
                 is LoginEvent.Login -> {

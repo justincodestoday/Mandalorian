@@ -1,12 +1,16 @@
 package com.mandalorian.chatapp.ui.presentation.message.viewModel
 
+import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
+import com.google.android.gms.tasks.Tasks
 import com.google.firebase.database.*
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.ktx.storage
 import com.mandalorian.chatapp.common.Resource
 import com.mandalorian.chatapp.data.model.Message
 import com.mandalorian.chatapp.data.model.User
@@ -21,6 +25,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
+import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
@@ -88,6 +94,14 @@ class MessageViewModel @Inject constructor(
         }.launchIn(viewModelScope)
     }
 
+    private suspend fun uploadImageAndGetUrl(imageUri: Uri): String {
+        val storageRef = FirebaseStorage.getInstance().getReference("images")
+        val imageRef = storageRef.child(imageUri.lastPathSegment ?: "image.jpg")
+        val uploadTask = imageRef.putFile(imageUri)
+        uploadTask.await()
+        return imageRef.downloadUrl.await().toString()
+    }
+
     fun sendMessage() {
         viewModelScope.launch {
             val user = authService.getCurrentUser()
@@ -134,9 +148,12 @@ class MessageViewModel @Inject constructor(
                         val connected =
                             snapshot.child("online").getValue(Boolean::class.java) ?: false
                         val lastSeen = snapshot.child("lastSeen").getValue(Long::class.java) ?: 0L
+                        val isTyping =
+                            snapshot.child("isTyping").getValue(Boolean::class.java) ?: false
                         val updatedUser = User(
                             online = connected,
-                            lastSeen = lastSeen
+                            lastSeen = lastSeen,
+                            isTyping = isTyping
                         )
                         user.value = updatedUser
                         // Update the user LiveData with the online status of the user
