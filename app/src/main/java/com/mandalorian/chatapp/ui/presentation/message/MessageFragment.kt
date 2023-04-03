@@ -1,26 +1,25 @@
 package com.mandalorian.chatapp.ui.presentation.message
 
-import android.annotation.SuppressLint
+import com.mandalorian.chatapp.CustomEditText.KeyBoardInputCallbackListener
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
+import androidx.core.view.inputmethod.InputConnectionCompat
+import androidx.core.view.inputmethod.InputContentInfoCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.asLiveData
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.mandalorian.chatapp.CustomEditText
 import com.mandalorian.chatapp.R
 import com.mandalorian.chatapp.databinding.FragmentMessageBinding
 import com.mandalorian.chatapp.ui.presentation.adapters.MessageAdapter
 import com.mandalorian.chatapp.ui.presentation.base.BaseFragment
 import com.mandalorian.chatapp.ui.presentation.message.viewModel.MessageViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -74,6 +73,7 @@ class MessageFragment : BaseFragment<FragmentMessageBinding>() {
             viewModel?.person?.observe(viewLifecycleOwner) { person ->
                 tvUsername.text = person?.username ?: ""
             }
+
             viewModel?.user?.observe(viewLifecycleOwner) { user ->
                 val lastSeen = user.lastSeen
                 val date = Date(lastSeen)
@@ -90,6 +90,7 @@ class MessageFragment : BaseFragment<FragmentMessageBinding>() {
         }
     }
 
+
     override fun onBindData(view: View) {
         super.onBindData(view)
 
@@ -97,8 +98,8 @@ class MessageFragment : BaseFragment<FragmentMessageBinding>() {
 
         viewModel.messages.asLiveData().observe(viewLifecycleOwner) {
             adapter.setMessages(it.toMutableList())
+            binding?.rvMessages?.scrollToPosition(adapter.itemCount - 1)
         }
-
     }
 
     fun setupAdapter() {
@@ -107,10 +108,5 @@ class MessageFragment : BaseFragment<FragmentMessageBinding>() {
 
         binding?.rvMessages?.adapter = adapter
         binding?.rvMessages?.layoutManager = layoutManager
-
-        viewModel.messages.asLiveData().observe(viewLifecycleOwner) {
-            adapter.setMessages(it.toMutableList())
-            binding?.rvMessages?.scrollToPosition(adapter.itemCount - 1)
-        }
     }
 }
