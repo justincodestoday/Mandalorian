@@ -11,6 +11,7 @@ import com.mandalorian.chatapp.databinding.FragmentHomeBinding
 import com.mandalorian.chatapp.ui.presentation.base.BaseFragment
 import com.mandalorian.chatapp.ui.presentation.adapters.ChatAdapter
 import com.mandalorian.chatapp.ui.presentation.home.viewModel.HomeViewModelImpl
+import com.mandalorian.chatapp.utils.NotificationUtils
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -23,12 +24,19 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         super.onBindView(view, savedInstanceState)
         setupAdapter()
 
-//        binding?.run {
+        binding?.run {
 //            btnAdd.setOnClickListener {
 //                val action = HomeFragmentDirections.actionHomeFragmentToMessageFragment()
 //                NavHostFragment.findNavController(this@HomeFragment).navigate(action)
 //            }
-//        }
+            btnCreateNotification.setOnClickListener {
+                NotificationUtils.createNotification(
+                    requireContext(),
+                    "1st Notification",
+                    "We are done"
+                )
+            }
+        }
     }
 
     override fun onBindData(view: View) {
