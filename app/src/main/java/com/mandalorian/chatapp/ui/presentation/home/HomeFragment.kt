@@ -36,6 +36,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                     "We are done"
                 )
             }
+            btnCreateRemoteInput.setOnClickListener {
+                NotificationUtils.createNotificationWithPendingIntent(
+                    requireContext(),
+                    "Notification with pending intent",
+                    "We are learning notification with pending intent"
+                )
+            }
         }
     }
 
