@@ -22,7 +22,7 @@ import com.google.android.material.navigation.NavigationView
 import com.mandalorian.chatapp.R
 import com.mandalorian.chatapp.service.AuthService
 import com.mandalorian.chatapp.service.NotificationService
-import com.mandalorian.chatapp.utils.Contants
+import com.mandalorian.chatapp.utils.Constants
 import com.mandalorian.chatapp.utils.NotificationUtils
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity() {
 
         navController = findNavController(R.id.navHostFragment)
 
-//        lifecycleScope.launch {
+//        lifecycleScope.launch" {
 //            val user = authRepo.getCurrentUser()
 //            val username = findViewById<TextView>(R.id.tvUsername)
 //            username.text = user?.username
@@ -78,7 +78,7 @@ class MainActivity : AppCompatActivity() {
         ) {
             ActivityCompat.requestPermissions(this, arrayOf(permission), requestCode)
         } else {
-            Log.d(Contants.DEBUG, "Permission is granted already")
+            Log.d(Constants.DEBUG, "Permission is granted already")
         }
     }
 
