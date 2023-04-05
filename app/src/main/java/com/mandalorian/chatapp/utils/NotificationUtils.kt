@@ -16,9 +16,9 @@ import androidx.core.app.RemoteInput
 import com.mandalorian.chatapp.R
 import com.mandalorian.chatapp.data.model.WearableNotification
 import com.mandalorian.chatapp.ui.MainActivity
-import com.mandalorian.chatapp.utils.Contants
-import com.mandalorian.chatapp.utils.Contants.NOTIFICATION_ID
-import com.mandalorian.chatapp.utils.Contants.NOTIFICATION_NAME
+import com.mandalorian.chatapp.utils.Constants
+import com.mandalorian.chatapp.utils.Constants.NOTIFICATION_ID
+import com.mandalorian.chatapp.utils.Constants.NOTIFICATION_NAME
 
 object NotificationUtils {
     fun createNotificationChannel(context: Context) {
@@ -64,7 +64,7 @@ object NotificationUtils {
             PendingIntent.FLAG_MUTABLE
         )
 
-        val remoteInput = RemoteInput.Builder(Contants.REPLY)
+        val remoteInput = RemoteInput.Builder(Constants.REPLY)
             .setLabel("Reply")
             .build()
 

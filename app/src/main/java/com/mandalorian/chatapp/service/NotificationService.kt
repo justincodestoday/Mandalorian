@@ -11,20 +11,20 @@ import android.util.Log
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.getSystemService
 import com.google.protobuf.Empty
-import com.mandalorian.chatapp.utils.Contants
+import com.mandalorian.chatapp.utils.Constants
 import com.mandalorian.chatapp.utils.NotificationUtils
 
 class NotificationService : NotificationListenerService() {
 
     override fun onCreate() {
         super.onCreate()
-        Log.d(Contants.DEBUG, "Running")
+        Log.d(Constants.DEBUG, "Running")
     }
 
     override fun onNotificationPosted(sbn: StatusBarNotification?) {
         super.onNotificationPosted(sbn)
 
-        Log.d(Contants.DEBUG, "Found a notification")
+        Log.d(Constants.DEBUG, "Found a notification")
 
         val wNotification = NotificationUtils.getWearableNotification(sbn) ?: return
 
@@ -33,7 +33,7 @@ class NotificationService : NotificationListenerService() {
 
         if (title.contains("You") || title == "Empty") return
 
-        Log.d(Contants.DEBUG, "Title: $title\n Body: $msg")
+        Log.d(Constants.DEBUG, "Title: $title\n Body: $msg")
 
         val intent = Intent()
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
