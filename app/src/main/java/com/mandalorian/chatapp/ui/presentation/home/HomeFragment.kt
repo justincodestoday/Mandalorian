@@ -10,25 +10,40 @@ import com.mandalorian.chatapp.data.model.User
 import com.mandalorian.chatapp.databinding.FragmentHomeBinding
 import com.mandalorian.chatapp.ui.presentation.base.BaseFragment
 import com.mandalorian.chatapp.ui.presentation.adapters.ChatAdapter
-import com.mandalorian.chatapp.ui.presentation.home.viewModel.HomeViewModel
+import com.mandalorian.chatapp.ui.presentation.home.viewModel.HomeViewModelImpl
+import com.mandalorian.chatapp.utils.NotificationUtils
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     private lateinit var adapter: ChatAdapter
-    override val viewModel: HomeViewModel by viewModels()
+    override val viewModel: HomeViewModelImpl by viewModels()
     override fun getLayoutResource() = R.layout.fragment_home
 
     override fun onBindView(view: View, savedInstanceState: Bundle?) {
         super.onBindView(view, savedInstanceState)
         setupAdapter()
 
-//        binding?.run {
+        binding?.run {
 //            btnAdd.setOnClickListener {
 //                val action = HomeFragmentDirections.actionHomeFragmentToMessageFragment()
 //                NavHostFragment.findNavController(this@HomeFragment).navigate(action)
 //            }
-//        }
+            btnCreateNotification.setOnClickListener {
+                NotificationUtils.createNotification(
+                    requireContext(),
+                    "1st Notification",
+                    "We are done"
+                )
+            }
+            btnCreateRemoteInput.setOnClickListener {
+                NotificationUtils.createNotificationWithPendingIntent(
+                    requireContext(),
+                    "Notification with pending intent",
+                    "We are learning notification with pending intent"
+                )
+            }
+        }
     }
 
     override fun onBindData(view: View) {

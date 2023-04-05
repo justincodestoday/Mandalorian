@@ -10,6 +10,18 @@
         android:layout_marginBottom="16dp"
         android:padding="16dp">
 
+        <ImageView
+            android:id="@+id/ivEmoji"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/emoji"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:gravity="end"
+            android:layout_marginEnd="12dp"
+            android:layout_gravity="end"
+            android:textSize="17sp"/>
+
         <TextView
             android:id="@+id/tvUserName"
             android:layout_width="match_parent"
@@ -20,6 +32,7 @@
             android:textColor="@color/white"
             android:layout_marginBottom="4dp"
             android:textSize="17sp"/>
+
 
         <TextView
             android:id="@+id/tvMessage"

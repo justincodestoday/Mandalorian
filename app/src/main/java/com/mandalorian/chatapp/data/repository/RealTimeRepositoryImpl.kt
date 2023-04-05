@@ -8,11 +8,12 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
 import com.mandalorian.chatapp.data.model.Message
+import com.mandalorian.chatapp.domain.repository.RealTimeRepository
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.tasks.await
 
-class RealtimeRepository {
+class RealTimeRepositoryImpl: RealTimeRepository {
     private val ref = Firebase.database.getReference("chats")
 
     private fun getCombinedUid(uid1: String, uid2: String): String {
@@ -27,14 +28,14 @@ class RealtimeRepository {
 //        ref.push().setValue(msg).await()
 //    }
 
-    suspend fun addMessage(uid1: String, uid2: String, msg: Message) {
+   override suspend fun addMessage(uid1: String, uid2: String, msg: Message) {
        ref.child(getCombinedUid(uid1, uid2)+"/messages")
            .push()
            .setValue(msg)
            .await()
     }
 
-    fun getAllMessages(uid1: String, uid2: String) = callbackFlow<List<Message>> {
+    override fun getAllMessages(uid1: String, uid2: String) = callbackFlow<List<Message>> {
         ref.child(getCombinedUid(uid1, uid2)+"/messages").addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val messages = mutableListOf<Message>()

@@ -1,6 +1,5 @@
 package com.mandalorian.chatapp.ui.presentation.register.viewModel
 
-
 import androidx.lifecycle.viewModelScope
 import com.mandalorian.chatapp.data.model.User
 import com.mandalorian.chatapp.service.AuthService
