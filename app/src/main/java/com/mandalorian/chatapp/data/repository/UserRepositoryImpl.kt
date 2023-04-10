@@ -2,10 +2,7 @@ package com.mandalorian.chatapp.data.repository
 
 import com.google.firebase.firestore.CollectionReference
 import com.mandalorian.chatapp.data.model.User
-<<<<<<<< HEAD:app/src/main/java/com/mandalorian/chatapp/data/repository/UserRepository.kt
-========
 import com.mandalorian.chatapp.domain.repository.UserRepository
->>>>>>>> aa5984ec9d582d8935daa1b2ecf2d70711aa3061:app/src/main/java/com/mandalorian/chatapp/data/repository/UserRepositoryImpl.kt
 import kotlinx.coroutines.tasks.await
 
 class UserRepositoryImpl(private val ref: CollectionReference): UserRepository {

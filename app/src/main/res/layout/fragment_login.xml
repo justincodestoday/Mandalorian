@@ -66,7 +66,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:background="@color/yellow"
-            android:onClick="@{() -> viewModel.signIn()}"
+            android:onClick="@{() -> viewModel.login()}"
             android:text="Sign In"
             android:textColor="@color/black"
             android:textStyle="bold"

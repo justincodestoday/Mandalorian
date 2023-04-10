@@ -8,19 +8,12 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
 import com.mandalorian.chatapp.data.model.Message
-<<<<<<<< HEAD:app/src/main/java/com/mandalorian/chatapp/data/repository/RealtimeRepository.kt
-========
 import com.mandalorian.chatapp.domain.repository.RealTimeRepository
->>>>>>>> aa5984ec9d582d8935daa1b2ecf2d70711aa3061:app/src/main/java/com/mandalorian/chatapp/data/repository/RealTimeRepositoryImpl.kt
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.tasks.await
 
-<<<<<<<< HEAD:app/src/main/java/com/mandalorian/chatapp/data/repository/RealtimeRepository.kt
-class RealtimeRepository {
-========
 class RealTimeRepositoryImpl: RealTimeRepository {
->>>>>>>> aa5984ec9d582d8935daa1b2ecf2d70711aa3061:app/src/main/java/com/mandalorian/chatapp/data/repository/RealTimeRepositoryImpl.kt
     private val ref = Firebase.database.getReference("chats")
 
     private fun getCombinedUid(uid1: String, uid2: String): String {

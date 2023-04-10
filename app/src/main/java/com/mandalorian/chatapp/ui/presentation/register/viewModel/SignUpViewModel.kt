@@ -1,12 +1,10 @@
 package com.mandalorian.chatapp.ui.presentation.register.viewModel
 
-
 import androidx.lifecycle.viewModelScope
 import com.mandalorian.chatapp.data.model.User
 import com.mandalorian.chatapp.service.AuthService
 import com.mandalorian.chatapp.ui.presentation.base.viewModel.BaseViewModel
 import com.mandalorian.chatapp.utils.Utils
-import com.mandalorian.chatapp.ui.presentation.base.viewModel.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow

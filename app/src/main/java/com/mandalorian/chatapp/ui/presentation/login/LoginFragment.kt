@@ -26,7 +26,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
         super.onBindData(view)
 
         lifecycleScope.launch {
-            viewModel.signInComplete.collect {
+            viewModel.loginFinish.collect {
                 navigateToHome()
             }
         }
