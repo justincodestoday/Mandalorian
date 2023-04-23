@@ -1,15 +1,14 @@
-package com.mandalorian.chatapp.domain.usecase
+package com.mandalorian.chatapp.domain.useCase
 
 import com.mandalorian.chatapp.common.Resource
 import com.mandalorian.chatapp.data.model.Message
-import com.mandalorian.chatapp.domain.repository.RealTimeRepository
+import com.mandalorian.chatapp.data.repository.RealTimeRepository
 import com.mandalorian.chatapp.ui.presentation.message.MessageEvent
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
-import javax.inject.Inject
 
-class GetMessagesUseCase @Inject constructor(
+class GetMessagesUseCase(
     private val realTimeRepository: RealTimeRepository
 ) {
     operator fun invoke(event: MessageEvent): Flow<Resource<List<Message>>> {

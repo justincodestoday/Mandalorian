@@ -2,7 +2,7 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/main_nav_graph"
-    app:startDestination="@id/loginFragment">
+    app:startDestination="@id/homeFragment">
     <action
         android:id="@+id/toLogin"
         app:destination="@id/loginFragment" />
@@ -27,6 +27,8 @@
         <action
             android:id="@+id/action_homeFragment_to_messageFragment"
             app:destination="@id/messageFragment" />
+
+        <deepLink app:uri="https://www.chatapp.com/home" />
     </fragment>
     <fragment
         android:id="@+id/messageFragment"
@@ -36,6 +38,6 @@
             android:name="id"
             app:argType="string" />
 
-        <deepLink app:uri="https://www.chatapp.com/{id}" />
+        <deepLink app:uri="https://www.chatapp.com/message?id={id}" />
     </fragment>
 </navigation>

@@ -23,7 +23,6 @@
                 app:navGraph="@navigation/main_nav_graph" />
         </LinearLayout>
 
-
         <com.google.android.material.navigation.NavigationView
             android:id="@+id/navigationView"
             android:layout_width="wrap_content"

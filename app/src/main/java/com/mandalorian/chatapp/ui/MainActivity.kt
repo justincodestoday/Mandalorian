@@ -23,8 +23,9 @@ import com.google.android.material.navigation.NavigationView
 import com.mandalorian.chatapp.R
 import com.mandalorian.chatapp.data.receiver.MyBroadcastReceiver
 import com.mandalorian.chatapp.data.receiver.OtpReceiver
-import com.mandalorian.chatapp.service.AuthService
+import com.mandalorian.chatapp.data.repository.AuthRepository
 import com.mandalorian.chatapp.service.MyService
+import com.mandalorian.chatapp.service.SensorService
 import com.mandalorian.chatapp.utils.Constants
 import com.mandalorian.chatapp.utils.NotificationUtils
 import dagger.hilt.android.AndroidEntryPoint
@@ -36,6 +37,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var appBarConfiguration: AppBarConfiguration
     private val NOTIFICATION_REQ_CODE = 0
     private val FOREGROUND_REQ_CODE = 1
+    private val ALARM_REQ_CODE = 2
     lateinit var myBroadcastReceiver: MyBroadcastReceiver
     lateinit var myOtpReceiver: OtpReceiver
     lateinit var resultLauncher: ActivityResultLauncher<Intent>
@@ -43,7 +45,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var myServiceIntent: Intent
 
     @Inject
-    lateinit var authRepo: AuthService
+    lateinit var authRepo: AuthRepository
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -57,6 +59,7 @@ class MainActivity : AppCompatActivity() {
         NotificationUtils.createNotificationChannel(this)
         checkPermission("android.permission.POST_NOTIFICATIONS", NOTIFICATION_REQ_CODE)
         checkPermission("android.permission.FOREGROUND_SERVICE", FOREGROUND_REQ_CODE)
+        checkPermission("android.permission.SCHEDULE_EXACT_ALARM", ALARM_REQ_CODE)
 
         navController = findNavController(R.id.navHostFragment)
         val navigationView = findViewById<NavigationView>(R.id.navigationView)
@@ -64,8 +67,9 @@ class MainActivity : AppCompatActivity() {
 //        navigationView.setupWithNavController(navController)
         val drawerLayout = findViewById<DrawerLayout>(R.id.drawerLayout)
         appBarConfiguration = AppBarConfiguration.Builder(navController.graph)
+            .setOpenableLayout(drawerLayout)
             .build()
-        appBarConfiguration = AppBarConfiguration(navController.graph, drawerLayout)
+//        appBarConfiguration = AppBarConfiguration(navController.graph, drawerLayout)
         setupActionBarWithNavController(navController, appBarConfiguration)
 
         val btnLogout = findViewById<MaterialButton>(R.id.btnLogout)
@@ -83,6 +87,14 @@ class MainActivity : AppCompatActivity() {
         registerBroadcastReceiver()
 
         registerOtpReceiver()
+
+        Intent(this, SensorService::class.java).also {
+            startService(it)
+        }
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        return navController.navigateUp(appBarConfiguration) || super.onNavigateUp()
     }
 
     fun startService() {
@@ -103,10 +115,6 @@ class MainActivity : AppCompatActivity() {
         super.onDestroy()
         unregisterReceiver(myBroadcastReceiver)
         unregisterReceiver(myOtpReceiver)
-    }
-
-    override fun onSupportNavigateUp(): Boolean {
-        return navController.navigateUp(appBarConfiguration) || super.onNavigateUp()
     }
 
     private fun checkPermission(permission: String, requestCode: Int) {
@@ -134,6 +142,10 @@ class MainActivity : AppCompatActivity() {
             }
             FOREGROUND_REQ_CODE -> {
                 Toast.makeText(this, "Foreground service permission is granted", Toast.LENGTH_LONG)
+                    .show()
+            }
+            ALARM_REQ_CODE -> {
+                Toast.makeText(this, "Alarm service permission is granted", Toast.LENGTH_LONG)
                     .show()
             }
             else -> {

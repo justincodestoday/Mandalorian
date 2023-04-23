@@ -1,7 +1,7 @@
 package com.mandalorian.chatapp
 
 import android.app.Application
-import com.mandalorian.chatapp.service.AuthService
+import com.mandalorian.chatapp.data.repository.AuthRepository
 import dagger.hilt.android.HiltAndroidApp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -11,12 +11,12 @@ import javax.inject.Inject
 @HiltAndroidApp
 class MyApplication: Application() {
     @Inject
-    lateinit var authService: AuthService
+    lateinit var authRepository: AuthRepository
     var username: String? = null
 
     fun fetchUsername() {
         CoroutineScope(Dispatchers.IO).launch {
-            val res = authService.getCurrentUser()
+            val res = authRepository.getCurrentUser()
             username = res?.username
         }
     }

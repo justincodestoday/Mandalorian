@@ -1,4 +1,4 @@
-package com.mandalorian.chatapp.domain.repository
+package com.mandalorian.chatapp.data.repository
 
 import com.mandalorian.chatapp.data.model.Message
 import kotlinx.coroutines.flow.Flow

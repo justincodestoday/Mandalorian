@@ -1,40 +1,41 @@
-package com.mandalorian.chatapp.service
+package com.mandalorian.chatapp.data.repository
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.CollectionReference
 import com.mandalorian.chatapp.data.model.User
 import kotlinx.coroutines.tasks.await
 
-class AuthService(private val auth: FirebaseAuth, private val ref: CollectionReference) {
+class AuthRepositoryImpl(private val auth: FirebaseAuth, private val ref: CollectionReference):
+    AuthRepository {
 
-    suspend fun register(user: User) {
+    override suspend fun register(user: User) {
         val res = auth.createUserWithEmailAndPassword(user.email, user.password).await()
         if (res.user != null) {
             res.user?.uid?.let { ref.document(it).set(user.copy(id = it)) }
         }
     }
 
-    suspend fun login(email: String, password: String): Boolean {
+    override suspend fun login(email: String, password: String): Boolean {
         val res = auth.signInWithEmailAndPassword(email, password).await()
         return res.user?.uid != null
     }
 
-    fun isLoggedIn(): Boolean {
+    override fun isLoggedIn(): Boolean {
         auth.currentUser ?: return false
         return true
     }
 
-    fun signOut() {
+    override fun signOut() {
         auth.signOut()
     }
 
-    suspend fun getCurrentUser(): User? {
+    override suspend fun getCurrentUser(): User? {
         return auth.uid?.let {
             ref.document(it).get().await().toObject(User::class.java)
         }
     }
 
-    fun getUid(): String? {
+    override fun getUid(): String? {
         return auth.uid
     }
 }

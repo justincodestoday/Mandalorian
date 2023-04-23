@@ -1,14 +1,13 @@
-package com.mandalorian.chatapp.domain.usecase
+package com.mandalorian.chatapp.domain.useCase
 
 import com.mandalorian.chatapp.common.Resource
-import com.mandalorian.chatapp.service.AuthService
+import com.mandalorian.chatapp.data.repository.AuthRepository
 import com.mandalorian.chatapp.ui.presentation.login.LoginEvent
 import com.mandalorian.chatapp.utils.Utils
 import kotlinx.coroutines.flow.flow
-import javax.inject.Inject
 
-class LoginUseCase @Inject constructor(
-    private val authService: AuthService
+class LoginUseCase(
+    private val authRepository: AuthRepository
 ) {
     operator fun invoke(event: LoginEvent) = flow {
         try {
@@ -17,7 +16,7 @@ class LoginUseCase @Inject constructor(
                     val (_, _, email, pass) = event.user
                     if (Utils.validate(email, pass)) {
                         emit(Resource.Loading(true))
-                        val res = authService.login(event.user.email, event.user.password)
+                        val res = authRepository.login(event.user.email, event.user.password)
                         emit(Resource.Success(res))
                     } else {
                         emit(Resource.Error("Validation failed"))
