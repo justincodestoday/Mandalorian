@@ -14,7 +14,6 @@ import androidx.core.view.inputmethod.InputConnectionCompat
 import androidx.core.view.inputmethod.InputConnectionCompat.OnCommitContentListener
 import androidx.core.view.inputmethod.InputContentInfoCompat
 
-
 class CustomEditText : AppCompatEditText {
     private val imgTypeString = arrayOf(
         "image/png",

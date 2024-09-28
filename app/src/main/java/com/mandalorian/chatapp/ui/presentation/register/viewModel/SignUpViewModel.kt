@@ -1,11 +1,10 @@
 package com.mandalorian.chatapp.ui.presentation.register.viewModel
 
-
 import androidx.lifecycle.viewModelScope
 import com.mandalorian.chatapp.data.model.User
-import com.mandalorian.chatapp.service.AuthService
-import com.mandalorian.chatapp.utils.Utils
+import com.mandalorian.chatapp.data.repository.AuthRepository
 import com.mandalorian.chatapp.ui.presentation.base.viewModel.BaseViewModel
+import com.mandalorian.chatapp.utils.Utils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -13,8 +12,8 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class SignUpViewModel @Inject constructor(private val authRepo: AuthService) : BaseViewModel() {
-    val signupFinish: MutableSharedFlow<Unit> = MutableSharedFlow()
+class SignUpViewModel @Inject constructor(private val authRepo: AuthRepository) : BaseViewModel() {
+    val signUpComplete: MutableSharedFlow<Unit> = MutableSharedFlow()
     val signInComplete: MutableSharedFlow<Unit> = MutableSharedFlow()
     val name: MutableStateFlow<String> = MutableStateFlow("")
     val email: MutableStateFlow<String> = MutableStateFlow("")
@@ -32,7 +31,7 @@ class SignUpViewModel @Inject constructor(private val authRepo: AuthService) : B
                             password = password.value
                         )
                     )
-                    signupFinish.emit(Unit)
+                    signUpComplete.emit(Unit)
                 }
             }
         } else {

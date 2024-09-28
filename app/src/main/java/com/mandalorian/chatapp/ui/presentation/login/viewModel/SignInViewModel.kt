@@ -3,9 +3,7 @@ package com.mandalorian.chatapp.ui.presentation.login.viewModel
 import androidx.lifecycle.viewModelScope
 import com.mandalorian.chatapp.common.Resource
 import com.mandalorian.chatapp.data.model.User
-import com.mandalorian.chatapp.domain.usecase.LoginUseCase
-import com.mandalorian.chatapp.service.AuthService
-import com.mandalorian.chatapp.utils.Utils
+import com.mandalorian.chatapp.domain.useCase.LoginUseCase
 import com.mandalorian.chatapp.ui.presentation.base.viewModel.BaseViewModel
 import com.mandalorian.chatapp.ui.presentation.login.LoginEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -24,6 +22,7 @@ class SignInViewModel @Inject constructor(
     val signUpComplete: MutableSharedFlow<Unit> = MutableSharedFlow()
     val email: MutableStateFlow<String> = MutableStateFlow("")
     val password: MutableStateFlow<String> = MutableStateFlow("")
+    val newError: MutableSharedFlow<String> = MutableSharedFlow()
 
     fun login() {
         viewModelScope.launch {
@@ -44,6 +43,7 @@ class SignInViewModel @Inject constructor(
 
                         is Resource.Error -> {
                             error.emit(it.message!!)
+                            newError.emit("Failed")
                         }
                     }
                 }.launchIn(viewModelScope)

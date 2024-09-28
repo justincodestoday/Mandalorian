@@ -5,41 +5,37 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
-import com.google.android.gms.tasks.Tasks
 import com.google.firebase.database.*
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.ktx.storage
 import com.mandalorian.chatapp.common.Resource
 import com.mandalorian.chatapp.data.model.Message
 import com.mandalorian.chatapp.data.model.User
-import com.mandalorian.chatapp.service.AuthService
+import com.mandalorian.chatapp.data.repository.AuthRepository
 import com.mandalorian.chatapp.domain.repository.UserRepository
-import com.mandalorian.chatapp.domain.usecase.GetMessagesUseCase
+import com.mandalorian.chatapp.domain.useCase.GetMessagesUseCase
 import com.mandalorian.chatapp.ui.presentation.base.viewModel.BaseViewModel
 import com.mandalorian.chatapp.ui.presentation.message.MessageEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
-import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
 class MessageViewModel @Inject constructor(
     private val userRepo: UserRepository,
-    private val authService: AuthService,
+    private val authRepository: AuthRepository,
     savedStateHandler: SavedStateHandle,
     private val getMessagesUseCase: GetMessagesUseCase,
 ) : BaseViewModel() {
 
     val user: MutableLiveData<User> = MutableLiveData()
     val person: MutableLiveData<User> = MutableLiveData()
-    private val userId = authService.getUid() ?: ""
+    private val userId = authRepository.getUid() ?: ""
     private val timestamp = ServerValue.TIMESTAMP
 
     val txt: MutableStateFlow<String> = MutableStateFlow("")
@@ -76,7 +72,7 @@ class MessageViewModel @Inject constructor(
     private fun getAllMessages() {
         getMessagesUseCase(
             MessageEvent.GetMessages(
-                authService.getUid() ?: "",
+                authRepository.getUid() ?: "",
                 uid2
             )
         ).onEach {
@@ -104,12 +100,12 @@ class MessageViewModel @Inject constructor(
 
     fun sendMessage() {
         viewModelScope.launch {
-            val user = authService.getCurrentUser()
+            val user = authRepository.getCurrentUser()
             if (user != null) {
                 val message = Message(name = user.username, message = txt.value)
                 getMessagesUseCase(
                     MessageEvent.SendMessage(
-                        authService.getUid() ?: "",
+                        authRepository.getUid() ?: "",
                         uid2,
                         message
                     )

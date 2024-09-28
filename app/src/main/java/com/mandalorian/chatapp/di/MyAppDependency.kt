@@ -7,12 +7,15 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import com.mandalorian.chatapp.service.AuthService
+import com.mandalorian.chatapp.data.repository.AuthRepositoryImpl
 import com.mandalorian.chatapp.data.repository.RealTimeRepositoryImpl
 import com.mandalorian.chatapp.data.repository.UserRepositoryImpl
-import com.mandalorian.chatapp.domain.repository.RealTimeRepository
+import com.mandalorian.chatapp.data.repository.AuthRepository
+import com.mandalorian.chatapp.data.repository.RealTimeRepository
 import com.mandalorian.chatapp.domain.repository.UserRepository
-import com.mandalorian.chatapp.domain.usecase.GetUsersUseCase
+import com.mandalorian.chatapp.domain.useCase.LoginUseCase
+import com.mandalorian.chatapp.domain.useCase.GetMessagesUseCase
+import com.mandalorian.chatapp.domain.useCase.GetUsersUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -43,8 +46,8 @@ object MyAppDependency {
 
     @Provides
     @Singleton
-    fun getAuthService(auth: FirebaseAuth, db: FirebaseFirestore): AuthService {
-        return AuthService(auth, db.collection("users"))
+    fun getAuthRepository(auth: FirebaseAuth, db: FirebaseFirestore): AuthRepository {
+        return AuthRepositoryImpl(auth, db.collection("users"))
     }
 
     @Provides
@@ -59,10 +62,21 @@ object MyAppDependency {
         return UserRepositoryImpl(db.collection("users"))
     }
 
-//    @Provides
-//    @Singleton
-//    fun provideGetUserUseCase(userRepository: UserRepository): GetUsersUseCase {
-//        return GetUsersUseCase(userRepository)
-//    }
+    @Provides
+    @Singleton
+    fun provideLoginUseCase(authRepo: AuthRepository): LoginUseCase {
+        return LoginUseCase(authRepo)
+    }
 
+    @Provides
+    @Singleton
+    fun provideGetUserUseCase(userRepository: UserRepository): GetUsersUseCase {
+        return GetUsersUseCase(userRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideGetMessagesUseCase(realTimeRepo: RealTimeRepository): GetMessagesUseCase {
+        return GetMessagesUseCase(realTimeRepo)
+    }
 }

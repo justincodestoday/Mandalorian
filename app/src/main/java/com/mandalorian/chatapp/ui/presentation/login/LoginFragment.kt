@@ -2,6 +2,7 @@ package com.mandalorian.chatapp.ui.presentation.login
 
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.mandalorian.chatapp.MyApplication
@@ -11,6 +12,7 @@ import com.mandalorian.chatapp.ui.presentation.base.BaseFragment
 import com.mandalorian.chatapp.ui.presentation.login.viewModel.SignInViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+
 
 @AndroidEntryPoint
 class LoginFragment : BaseFragment<FragmentLoginBinding>() {
@@ -24,6 +26,8 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
 
     override fun onBindData(view: View) {
         super.onBindData(view)
+
+        (activity as AppCompatActivity).supportActionBar?.hide()
 
         lifecycleScope.launch {
             viewModel.loginFinish.collect {
